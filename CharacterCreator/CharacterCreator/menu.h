@@ -15,6 +15,14 @@ void MenuSetUnsupported();
 // for another character while it is open switches to them.
 void MenuToggle(int ch);
 
+// ReShade tab sessions (reshade_menu.cpp): the same open / keep / cancel as
+// the overlay path, driven by the ReShade overlay's state instead of hotkeys.
+// MenuSessionOpen is read from ReShade's overlay thread; the flag is only
+// ever set under the menu lock.
+void MenuSessionBegin(int ch);
+void MenuSessionEnd(bool keep);     // true = Keep, false = Cancel
+bool MenuSessionOpen();
+
 void MenuDraw(const OverlayDrawContext& ctx);
 void MenuKey(int vk);
 

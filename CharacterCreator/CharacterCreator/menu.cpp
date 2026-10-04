@@ -732,6 +732,68 @@ void MenuToggle(int ch)
 }
 
 // ---------------------------------------------------------------------------
+// ReShade tab sessions (see reshade_menu.cpp): the same open / keep / cancel
+// as the overlay path, driven by the ReShade overlay's state instead of
+// hotkeys. g_sessionOpen is only ever written under the menu lock.
+// ---------------------------------------------------------------------------
+
+static bool g_sessionOpen = false;
+
+void MenuSessionBegin(int ch)
+{
+    if (ch < 0 || ch >= CHARACTER_COUNT)
+        return;
+
+    AcquireSRWLockExclusive(&g_lock);
+
+    // Switching characters keeps the current one's changes, like MenuToggle.
+    if (g_sessionOpen)
+    {
+        if (ch == g_char)
+        {
+            ReleaseSRWLockExclusive(&g_lock);
+            return;
+        }
+
+        Keep();
+    }
+
+    if (g_dataLoaded)
+    {
+        Open(ch);
+        g_sessionOpen = true;
+        OverlaySetVisible(true);
+        CameraMenuOpened(ch);
+        Log("menu session opened for %S (ReShade tab)", CHARACTER_NAMES[ch]);
+        GameLogCharacter(ch);
+    }
+
+    ReleaseSRWLockExclusive(&g_lock);
+}
+
+void MenuSessionEnd(bool keep)
+{
+    AcquireSRWLockExclusive(&g_lock);
+
+    if (g_sessionOpen)
+    {
+        g_sessionOpen = false;
+
+        if (keep)
+            Keep();
+        else
+            Cancel();
+    }
+
+    ReleaseSRWLockExclusive(&g_lock);
+}
+
+bool MenuSessionOpen()
+{
+    return g_sessionOpen;
+}
+
+// ---------------------------------------------------------------------------
 // Keeping body, head and hair matched to the loaded race and gender
 // ---------------------------------------------------------------------------
 

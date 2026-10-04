@@ -15,6 +15,7 @@
 #include "menu.h"
 #include "overlay.h"
 #include "profile.h"
+#include "reshade_menu.h"
 #include "switches.h"
 #include "data_pack.h"
 #include "version.h"
@@ -83,8 +84,11 @@ static DWORD WINAPI MainThread(LPVOID)
     PluginFolder(pluginFolder, sizeof(pluginFolder));
     HotkeysLoad(pluginFolder);
 
-    // Before the game creates its swap chain.
-    if (!PartDisabled("overlay"))
+    // The ReShade tab replaces the D2D overlay where available (Proton/HDR):
+    // no swap chain hooks, no game-window input hook in that case.
+    bool reshadeTab = ReshadeMenuInit(g_module);
+
+    if (!reshadeTab && !PartDisabled("overlay"))
         OverlayEarlyInit();
 
     DataPackUnpack(g_module, folder);
@@ -119,7 +123,7 @@ static DWORD WINAPI MainThread(LPVOID)
     if (gameReady && !PartDisabled("height"))
         HeightInit();
 
-    if (!PartDisabled("overlay") && OverlayInit())
+    if (!reshadeTab && !PartDisabled("overlay") && OverlayInit())
         OverlaySetCallbacks(MenuDraw, MenuKey);
 
     DWORD lastSave = GetTickCount();
@@ -135,15 +139,19 @@ static DWORD WINAPI MainThread(LPVOID)
 
         // F6 / F7 / F8 (CharacterCreator.ini) open and close the editor for
         // Kliff / Damiane / Oongka. Uses the "is down" bit: the "pressed since
-        // last call" bit is shared between programs.
-        for (int ch = 0; ch < CHARACTER_COUNT; ++ch)
+        // last call" bit is shared between programs. Not polled when the
+        // ReShade tab drives the session instead.
+        if (!reshadeTab)
         {
-            bool down = HotkeyDown(ch);
+            for (int ch = 0; ch < CHARACTER_COUNT; ++ch)
+            {
+                bool down = HotkeyDown(ch);
 
-            if (down && !keyDown[ch])
-                MenuToggle(ch);
+                if (down && !keyDown[ch])
+                    MenuToggle(ch);
 
-            keyDown[ch] = down;
+                keyDown[ch] = down;
+            }
         }
 
         DWORD now = GetTickCount();

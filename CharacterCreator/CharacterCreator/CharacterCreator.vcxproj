@@ -119,6 +119,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>..\..\external\reshade\include;..\..\external\minhook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,7 +142,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\external\minhook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\external\reshade\include;..\..\external\minhook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -180,6 +181,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="profile.h" />
     <ClInclude Include="research.h" />
+    <ClInclude Include="reshade_menu.h" />
     <ClInclude Include="watch.h" />
     <ClInclude Include="glide.h" />
   </ItemGroup>
@@ -207,6 +209,7 @@
     <ClCompile Include="overlay.cpp" />
     <ClCompile Include="profile.cpp" />
     <ClCompile Include="research.cpp" />
+    <ClCompile Include="reshade_menu.cpp" />
     <ClCompile Include="watch.cpp" />
     <ClCompile Include="glide.cpp" />
     <ClCompile Include="switches.cpp" />
