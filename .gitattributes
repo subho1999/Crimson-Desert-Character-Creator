@@ -1,0 +1,4 @@
+# The release package reproduces the Nexus zip byte-for-byte: these docs
+# keep the line endings the release ships with, on any checkout platform.
+release/README.txt text eol=lf
+release/THIRD_PARTY.txt text eol=crlf
