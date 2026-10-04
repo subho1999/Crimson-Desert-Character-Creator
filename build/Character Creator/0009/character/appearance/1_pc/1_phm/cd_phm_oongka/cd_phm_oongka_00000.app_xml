@@ -1,0 +1,22 @@
+﻿<Appearance>
+	<Customization CustomizationFile="cd_pc/cd_phm_oongka_customization" MeshParamFile="meshparam_example_oongka.xml" DecorationParamFile="decorationparam_player.xml"/>
+	<Nude>
+		<Prefab Name="cd_pom_00_nude_00_0001_oongka" CharacterScale="1.090070"/>
+	</Nude>
+	<Head>
+		<Prefab Name="cd_pom_00_head_00_0001_oongka" HeadScale="0.900000"/>
+	</Head>
+	<Hair>
+		<Prefab Name="cd_phm_00_hair_00_0003_player"/>
+		
+	</Hair>
+	<Armor>
+		<Prefab Name="cd_phm_00_parthide_00_0000_w"/>
+		<Prefab Name="cd_phm_00_bag_0000_z"/>
+		<Prefab Name="cd_phm_00_bag_belt_0000"/>
+		
+		<Prefab Name="cd_phm_00_ub_00_0056" Preview="true"/>
+		<Prefab Name="cd_phm_00_foot_0056" Preview="true"/>
+		<Prefab Name="cd_phm_00_hand_00_0056" Preview="true"/>
+	</Armor>
+</Appearance>

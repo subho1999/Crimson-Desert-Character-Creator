@@ -1,0 +1,193 @@
+﻿<!-- 디스크립션 / 데미안 -->
+
+<PoseModifierDesc>
+	<FootIK Type="Biped"/>
+</>
+<PhysicsData StepUpDistance="0.5"/>
+
+<PartInOutSocketInfo>
+	<!-- 마르니 신봉자 투구, 하이퍼 스페이스 연결선 -->
+	<PartInOutSocket PartName="CD_HyperspacePlug" Visible="Out"/>
+	<!-- 한손 검 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Sword_R" InSocketBone="Pelvis_L_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_L_ChildSocket" OutChildSocketBone="Basic_ChildSocket" WeaponCasePart="CD_MainWeapon_Sword_IN_R"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Sword_IN_R" InSocketBone="Pelvis_L_Socket" OutSocketBone="Pelvis_L_Socket" InChildSocketBone="Pelvis_L_ChildSocket" OutChildSocketBone="Pelvis_L_ChildSocket"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Sword_L" InSocketBone="Pelvis_R_Socket" OutSocketBone="LHand_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Basic_ChildSocket" WeaponCasePart="CD_MainWeapon_Sword_IN_L"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Sword_IN_L" InSocketBone="Pelvis_R_Socket" OutSocketBone="Pelvis_R_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Pelvis_R_ChildSocket"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Sword_R_Aux" InSocketBone="Pelvis_R_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Basic_ChildSocket" WeaponCasePart="CD_MainWeapon_Sword_IN_R_Aux"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Sword_IN_R_Aux" InSocketBone="Pelvis_R_Socket" OutSocketBone="Pelvis_R_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Pelvis_R_ChildSocket"/>
+	<!-- 주먹 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Fist_R" InSocketBone="RHand_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Basic_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Fist_L" InSocketBone="LHand_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Basic_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<PartInOutSocket PartName="CD_MainWeapon_HandCannon" InSocketBone="LHand_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Basic_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<!-- 한손 단검 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Dagger_R" InSocketBone="Pelvis_L_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_L_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Dagger_IN_R" InSocketBone="Pelvis_L_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_L_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Dagger_L" InSocketBone="Pelvis_R_Socket" OutSocketBone="LHand_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Dagger_IN_L" InSocketBone="Pelvis_R_Socket" OutSocketBone="LHand_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<!-- 양손 검 -->
+	<PartInOutSocket PartName="CD_TwoHandWeapon_Sword" InSocketBone="Spine2_B_MainWeapon_Socket" OutSocketBone="LHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket" WeaponCasePart="CD_TwoHandWeapon_Sword_IN"/>
+	<PartInOutSocket PartName="CD_TwoHandWeapon_Sword_IN" InSocketBone="Spine2_B_MainWeapon_Socket" OutSocketBone="LHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 데미안 방패 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Shield_R" InSocketBone="Spine2_B_Shield_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_Shield_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_Shield_Socket"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Shield_L" InSocketBone="Spine2_B_Shield_Socket" OutSocketBone="LForearm_Socket" InChildSocketBone="Spine2_B_Shield_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_Shield_Socket" VehicleBagSocketBone="Bag_Shield_Socket"/>
+	<PartInOutSocket PartName="CD_MainWeapon_TowerShield_L" InSocketBone="Spine2_B_Shield_Socket" OutSocketBone="LForearm_Socket" InChildSocketBone="Spine2_B_Shield_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_Shield_Socket" VehicleBagSocketBone="Bag_Shield_Socket"/>
+	<!-- 활, 화살통 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Bow" InSocketBone="Spine2_B_RangeWeapon_Socket" OutSocketBone="LHand_Socket" InChildSocketBone="Spine2_B_RangeWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_RangeWeapon_Socket"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Quiver" InSocketBone="Spine2_B_RangeWeapon_Socket" OutSocketBone="Spine2_B_RangeWeapon_Socket" InChildSocketBone="Spine2_B_RangeWeapon_ChildSocket" OutChildSocketBone="Spine2_B_RangeWeapon_ChildSocket" BagSocketBone="Bag_RangeWeapon_Socket"/>
+	<!-- 화살 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Arw" InSocketBone="Spine2_B_RangeWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_RangeWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_RangeWeapon_Socket"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Arw_IN" InSocketBone="Spine2_B_RangeWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_RangeWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_RangeWeapon_Socket"/>
+	<!-- 엘라이 --> 
+	<PartInOutSocket PartName="CD_MainWeapon_Arw" InSocketBone="Spine2_B_RangeWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_RangeWeapon_ChildSocket" OutChildSocketBone="Short_ChildSocket"/>
+	<!-- 크로스보우 -->
+	<PartInOutSocket PartName="CD_MainWeapon_CrossBow" InSocketBone="Spine2_B_RangeWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_RangeWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_RangeWeapon_Socket"/>
+	<!-- 피스톨 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Pistol_R" InSocketBone="Pelvis_L_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_L_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Pistol_L" InSocketBone="Pelvis_L_Socket" OutSocketBone="LHand_Socket" InChildSocketBone="Pelvis_L_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<!-- 머스킷 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Musket" InSocketBone="Spine2_B_RangeWeapon_Musket_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_RangeWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_RangeWeapon_Musket_Socket"/>
+	<!-- 트랩 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Trap" InSocketBone="RHand_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Basic_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<!-- 폭탄 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Bomb" InSocketBone="Pelvis_R_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<!-- 캐논 -->
+	<PartInOutSocket PartName="CD_TwoHandWeapon_Cannon" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_RangeWeapon_ChildSocket" OutChildSocketBone="Long_ChildSocket" BagSocketBone="Bag_RangeWeapon_Socket"/>
+	<!-- 방사기 -->
+	<PartInOutSocket PartName="CD_TwoHandWeapon_Thrower" InSocketBone="Bag_RangeWeapon_Thrower_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_RangeWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_RangeWeapon_Thrower_Socket"/>
+	<!-- 창 -->
+	<PartInOutSocket PartName="CD_TwoHandWeapon_Spear" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Long_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 장창 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Pike" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Long_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 할버드 -->
+	<PartInOutSocket PartName="CD_TwoHandWeapon_Alebard" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Long_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 부채 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Fan" InSocketBone="RHand_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Basic_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<!-- 유성추 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Bola" InSocketBone="Pelvis_R_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<!-- 횃불 -->
+	<PartInOutSocket PartName="CD_Tool_Torch" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<!-- 랜턴 -->
+	<PartInOutSocket PartName="CD_Lantern" InSocketBone="Physics_ThighR_00_Socket" OutSocketBone="LHand_Lantern_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Hand_L_ChildSocket" VehicleBagSocketBone="Vehicle_Lantern_Socket"/>
+	<!-- 팬플룻 -->
+	<PartInOutSocket PartName="CD_Tool_Flute" InSocketBone="RHand_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Basic_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<!-- 피리 -->
+	<PartInOutSocket PartName="CD_Tool_Pipe" InSocketBone="RHand_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Basic_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<!-- 낚싯대 -->
+	<PartInOutSocket PartName="CD_Tool_FishingRod" InSocketBone="Spine2_B_RangeWeapon_Socket" OutSocketBone="LHand_Socket" InChildSocketBone="Spine2_B_RangeWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_RangeWeapon_FishingRod_Socket"/>
+	<!-- 쥐불놀이 -->
+	<PartInOutSocket PartName="CD_Tool_FireCan" InSocketBone="RHand_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Basic_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<!-- 벌목 도끼 -->
+	<PartInOutSocket PartName="CD_Tool_Axe" InSocketBone="Pelvis_R_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Short_ChildSocket"/>
+	<!-- 후라이팬 -->
+	<PartInOutSocket PartName="CD_Tool_Pan" InSocketBone="Pelvis_L_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_L_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<!-- 해머 -->
+	<PartInOutSocket PartName="CD_Tool_Hammer" InSocketBone="Pelvis_R_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<!-- 삽 -->
+	<PartInOutSocket PartName="CD_Tool_Shovel" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Short_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 곡괭이 -->
+	<PartInOutSocket PartName="CD_Tool_Pickaxe" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 톱 -->
+	<PartInOutSocket PartName="CD_Tool_Saw" InSocketBone="Pelvis_R_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<!-- 빗자루 -->
+	<PartInOutSocket PartName="CD_Tool_Broom" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Long_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 쇠스랑 -->
+	<PartInOutSocket PartName="CD_Tool_Hayfork" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Long_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 낫(도구) -->
+	<PartInOutSocket PartName="CD_Tool_FarmScythe" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Long_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 갈퀴 -->
+	<PartInOutSocket PartName="CD_Tool_Rake" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Long_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 호미 -->
+	<PartInOutSocket PartName="CD_Tool_Hoe" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 분무기 -->
+	<PartInOutSocket PartName="CD_Tool_Sprayer" Visible="Out"/>
+	<!-- 낙하산 -->
+	<!-- 로켓 헬멧 -->
+	<PartInOutSocket PartName="CD_Helm_Flight" Visible="Out"/>	
+	<!-- 반지 -->
+	<PartInOutSocket PartName="CD_MainWeapon_Parachute" InSocketBone="LHand_Socket" OutSocketBone="LHand_Socket" InChildSocketBone="Basic_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<!-- 등짐 -->
+	<PartInOutSocket PartName="CD_Bag" InSocketBone="Bip_Weapon_Attach_In_02" OutSocketBone="Bip_Weapon_Attach_In_02" InChildSocketBone="Basic_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<!-- 반지 -->
+	<PartInOutSocket PartName="CD_Ring_R" InSocketBone="Ring_R_Socket" OutSocketBone="Ring_R_Socket" InChildSocketBone="Ring_R_ChildSocket" OutChildSocketBone="Ring_R_ChildSocket"/>
+	<PartInOutSocket PartName="CD_Ring_L" InSocketBone="Ring_L_Socket" OutSocketBone="Ring_L_Socket" InChildSocketBone="Ring_L_ChildSocket" OutChildSocketBone="Ring_L_ChildSocket"/>
+	<!-- 귀걸이 -->
+	<PartInOutSocket PartName="CD_Earring_R" InSocketBone="Earring_R_Socket" OutSocketBone="Earring_R_Socket" InChildSocketBone="Earring_R_ChildSocket" OutChildSocketBone="Earring_R_ChildSocket"/>
+	<PartInOutSocket PartName="CD_Earring_L" InSocketBone="Earring_L_Socket" OutSocketBone="Earring_L_Socket" InChildSocketBone="Earring_L_ChildSocket" OutChildSocketBone="Earring_L_ChildSocket"/>
+	<PartInOutSocket PartName="CD_Abyss_Gauntlet_Wire_R" Visible="Out"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Axe_R" InSocketBone="Pelvis_R_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Axe_L" InSocketBone="Pelvis_L_Socket" OutSocketBone="LHand_Socket" InChildSocketBone="Pelvis_L_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<!-- 한손 둔기(메이스) -->
+	<PartInOutSocket PartName="CD_MainWeapon_Mace_R" InSocketBone="Pelvis_R_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_R_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Mace_L" InSocketBone="Pelvis_L_Socket" OutSocketBone="LHand_Socket" InChildSocketBone="Pelvis_L_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Wand_R" InSocketBone="Pelvis_L_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Pelvis_L_ChildSocket" OutChildSocketBone="Basic_ChildSocket"/>
+	<PartInOutSocket PartName="CD_MainWeapon_Gauntlet" InSocketBone="Hand_Socket" OutSocketBone="Hand_Socket" InChildSocketBone="Basic_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	<PartInOutSocket PartName="CD_TwoHandWeapon_Axe" InSocketBone="Spine2_B_MainWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<PartInOutSocket PartName="CD_TwoHandWeapon_Mace" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 양손 워해머 -->
+	<PartInOutSocket PartName="CD_TwoHandWeapon_WarHammer" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<!-- 양손 해머 -->
+	<PartInOutSocket PartName="CD_TwoHandWeapon_Hammer" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<PartInOutSocket PartName="CD_TwoHandWeapon_Rod" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Basic_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<PartInOutSocket PartName="CD_TwoHandWeapon_Scythe" InSocketBone="Spine2_B_SubWeapon_Socket" OutSocketBone="RHand_Socket" InChildSocketBone="Spine2_B_SubWeapon_ChildSocket" OutChildSocketBone="Long_ChildSocket" BagSocketBone="Bag_SubWeapon_Socket"/>
+	<PartInOutSocket PartName="CD_Tool_Shooter" InSocketBone="LHand_Socket" OutSocketBone="LHand_Socket" InChildSocketBone="Basic_ChildSocket" OutChildSocketBone="Basic_ChildSocket" Visible="Out"/>
+	
+	
+</>
+
+<PartInOutOverride>
+	<CD_Bag_For_Dock>
+		<PartInOutSocket PartName="CD_MainWeapon_Shield_R" Visible="Out"/>
+		<PartInOutSocket PartName="CD_MainWeapon_Shield_L" Visible="Out"/>
+		<PartInOutSocket PartName="CD_MainWeapon_TowerShield_L" Visible="Out"/>
+		<PartInOutSocket PartName="CD_TwoHandWeapon_Sword" Visible="Out"/>
+		<PartInOutSocket PartName="CD_MainWeapon_Musket" Visible="Out"/>
+		<PartInOutSocket PartName="CD_MainWeapon_Arw_IN" Visible="Out"/>
+		<PartInOutSocket PartName="CD_MainWeapon_Arw" Visible="Out"/>
+		<PartInOutSocket PartName="CD_MainWeapon_Bow" Visible="Out"/>
+		<PartInOutSocket PartName="CD_MainWeapon_Pike" Visible="Out"/>
+		<PartInOutSocket PartName="CD_MainWeapon_Quiver" Visible="Out"/>
+		<PartInOutSocket PartName="CD_TwoHandWeapon_Alebard" Visible="Out"/>
+		<PartInOutSocket PartName="CD_TwoHandWeapon_Axe" Visible="Out"/>
+		<PartInOutSocket PartName="CD_TwoHandWeapon_Cannon" Visible="Out"/>
+		<PartInOutSocket PartName="CD_TwoHandWeapon_Hammer" Visible="Out"/>
+		<PartInOutSocket PartName="CD_TwoHandWeapon_Mace" Visible="Out"/>
+		<PartInOutSocket PartName="CD_TwoHandWeapon_Rod" Visible="Out"/>
+		<PartInOutSocket PartName="CD_TwoHandWeapon_Scythe" Visible="Out"/>
+		<PartInOutSocket PartName="CD_TwoHandWeapon_Spear" Visible="Out"/>
+		<PartInOutSocket PartName="CD_TwoHandWeapon_WarHammer" Visible="Out"/>
+		<PartInOutSocket PartName="CD_MainWeapon_CrossBow" Visible="Out"/>
+		<PartInOutSocket PartName="CD_TwoHandWeapon_BlowPipe" Visible="Out"/>
+		<PartInOutSocket PartName="CD_TwoHandWeapon_Cannon" Visible="Out"/>
+		
+		<PartInOutSocket PartName="CD_Tool_Broom" Visible="Out"/>
+		<PartInOutSocket PartName="CD_Tool_FarmScythe" Visible="Out"/>
+		<PartInOutSocket PartName="CD_Tool_FishingRod" Visible="Out"/>
+		<PartInOutSocket PartName="CD_Tool_Hayfork" Visible="Out"/>
+		<PartInOutSocket PartName="CD_Tool_Hoe" Visible="Out"/>
+		<PartInOutSocket PartName="CD_Tool_Pickaxe" Visible="Out"/>
+		<PartInOutSocket PartName="CD_Tool_Rake" Visible="Out"/>
+		<PartInOutSocket PartName="CD_Tool_Shovel" Visible="Out"/>
+		<PartInOutSocket PartName="CD_Tool_Torch" Visible="Out"/>
+	</>
+</>
+
+<HitPartGroupInfo DefaultHitAdditiveActionName="ADDITIVE_HIT_BODY" UseHitDirection="True" HitAdditiveBlendInFrame="1" HitAdditiveBlendOutFrame="3" JiggleHitFullBodyEffect="True">
+	<!-- <HitPartInfo PartName="RightArm" SocketNameList="Bip01 R Forearm, Bip01 R Hand,Bip01 R UpperArm" UseHitDirection="True" HitAdditiveActionName="ADDITIVE_HIT_RIGHTARM"/>
+	<HitPartInfo PartName="LeftArm" SocketNameList="Bip01 L Forearm, Bip01 L Hand,Bip01 L UpperArm" UseHitDirection="True" HitAdditiveActionName="ADDITIVE_HIT_LEFTARM"/>
+	<HitPartInfo PartName="RightLeg" SocketNameList="Bip01 R Calf ,Bip01 R Thigh" UseHitDirection="True" HitAdditiveActionName="ADDITIVE_HIT_RIGHTLEG"/>
+	<HitPartInfo PartName="LeftLeg" SocketNameList="Bip01 L Calf, Bip01 L Thigh" UseHitDirection="True" HitAdditiveActionName="ADDITIVE_HIT_LEFTLEG"/>
+	<HitPartInfo PartName="Body" SocketNameList="Bip01 Spine,Bip01 Spine1,Bip01 Spine2" UseHitDirection="True" HitAdditiveActionName="ADDITIVE_HIT_BODY"/> -->
+	<HitEffectInfo BoneName="Bip01" EffectName="fx_hit_common_normal_a__sweat01.action.effect" UseAttackDir="False" AttachPositionOffset="0.0 0.0 0.0" EffectRotation="0 0 0" EffectScale="1.2 1.2 1.2" HitEffectInfoType="Sweat01"/>
+	<HitEffectInfo BoneName="Bip01 Head" EffectName="fx_hit_common_normal_a__sweat02.action.effect" UseAttackDir="True" AttachPositionOffset="0.0 0.0 0.0" EffectRotation="0 0 0" EffectScale="1.0 1.0 1.0" HitEffectInfoType="Sweat01"/>
+	<HitEffectInfo BoneName="Bip01" EffectName="fx_boss_hit_01a__tongbae_01.action.effect" ApplyBoneRotation="True" UseAttackDir="False" AttachPositionOffset="0.0 0.0 0.0" EffectRotation="0 0 0" EffectScale="1.0 1.0 1.0" HitEffectInfoType="Sweat02"/>
+	<HitEffectInfo BoneName="Bip01 Spine2" EffectName="fx_cc_blood_a__blood2.action.effect" ApplyBoneRotation="False" UseAttackDir="False" AttachPositionOffset="0.0 0.0 0.0" EffectRotation="0 0 0" EffectScale="1.0 1.0 1.0" HitEffectInfoType="Blood01"/>
+
+	<HitEffectInfo Event="onGuard" BoneName="Bip01" EffectName="fx_boss_hit_01a__guard_common_01.action.effect" UseAttackDir="False" AttachPositionOffset="0.0 0.0 0.0" EffectRotation="0 0 0" EffectScale="1.0 1.0 1.0"/>
+</>
+
+<FaceAnimationSet>
+	<FaceAnimation Condition="CheckActionAttribute(Sleep)" ActionName="FACIAL_CLOSEEYE" PlayOnce="True"/>
+	<FaceAnimation Condition="CheckDead() || checkActionAttribute(Dead)" ActionName="FACIAL_DEAD_END" PlayOnce="True"/>
+    <FaceAnimation Condition="CheckBattle()" ActionName="FACIAL_BT_WAIT"/>
+    <FaceAnimation ActionName="FACIAL_WAIT"/>
+</>

@@ -1,0 +1,23 @@
+﻿<Appearance>
+	<Customization CustomizationFile="cd_pc/cd_phw_damian_customization" MeshParamFile="meshparam_example_damian.xml" DecorationParamFile="decorationparam_player_damian.xml"/>
+	<Nude>
+		<Prefab Name="cd_phw_00_nude_00_0001_damian" CharacterScale="0.940000"/>
+	</Nude>
+	<Head>
+		<Prefab Name="cd_phw_00_head_00_0111" HeadScale="1.020000"/>
+	</Head>
+	<Hair>
+		<Prefab Name="cd_phw_00_hair_00_0008_01_player"/>
+	</Hair>
+	<Armor>
+		
+		<Prefab Name="cd_phm_00_parthide_00_0000_w"/>
+		<Prefab Name="cd_phw_00_bag_belt_0000"/>
+		<Prefab Name="cd_phw_00_bag_0000_z"/>
+		
+		<Prefab Name="cd_phw_00_ub_00_0163_index01" Preview="true"/>
+		<Prefab Name="cd_phw_01_hand_00_0380_index03" Preview="true"/>
+		<Prefab Name="cd_phw_00_foot_00_0163_index01" Preview="true"/>
+		<Prefab Name="cd_phw_00_cloak_00_0163_index01_t" Preview="true"/>
+	</Armor>
+</Appearance>

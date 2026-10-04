@@ -1,0 +1,356 @@
+﻿<SkinnedMeshPropertyCommon ReflectObjectXMLDataVersion="9"/>
+<ModelPropertyList>
+	<ModelProperty Index="0" Version="Reflection">
+		<SkinnedMeshProperty ReflectObjectXMLDataVersion="9">
+			<Vector Name="_subMeshResources" IdBase="7" isOverrided="true">
+				<SkinnedMeshMaterialWrapper ItemID="7" _subMeshName="cd_phm_00_eyeleft_0001" _jiggleWindWeight="0">
+					<Material Name="_resourceMaterial" _materialName="SkinnedMeshEye">
+						<Vector Name="_permutations"/>
+						<Vector Name="_parameters">
+							<MaterialParameterBitFlag32 StringItemID="_renderSettingFlag" ItemID="8" _name="_renderSettingFlag" _value="1" Index="0"/>
+							<MaterialParameterTexture StringItemID="_baseColorTexture" ItemID="7" _name="_baseColorTexture" Index="1">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_ball_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_normalTexture" ItemID="6" _name="_normalTexture" Index="2">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_ball_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_materialTexture" ItemID="5" _name="_materialTexture" Index="3">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_heightTexture" ItemID="4" _name="_heightTexture" Index="4">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_maskTexture" ItemID="2" _name="_maskTexture" Index="5">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_m.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisDiffuseTexture" ItemID="3219133042786302" _name="_irisDiffuseTexture" Index="6">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/zk_phm_00_eye_iris_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisNormalTexture" ItemID="109923340910590" _name="_irisNormalTexture" Index="7">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/zk_phm_00_eye_iris_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisMaterialTexture" ItemID="1853147165229054" _name="_irisMaterialTexture" Index="8">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisHeightTexture" ItemID="1234073990201342" _name="_irisHeightTexture" Index="9">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_pupilTexture" ItemID="4238362294616062" _name="_pupilTexture" Index="10">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_pupil_0001.dds"/>
+							</MaterialParameterTexture>
+						</Vector>
+					</Material>
+				</SkinnedMeshMaterialWrapper>
+			</Vector>
+		</SkinnedMeshProperty>
+	</ModelProperty>
+	<ModelProperty Index="1" Version="Reflection">
+		<SkinnedMeshProperty ReflectObjectXMLDataVersion="9">
+			<Vector Name="_subMeshResources" IdBase="7" isOverrided="true">
+				<SkinnedMeshMaterialWrapper ItemID="7" _subMeshName="cd_phm_00_eyeleft_0001" _jiggleWindWeight="0">
+					<Material Name="_resourceMaterial" _materialName="SkinnedMeshEye">
+						<Vector Name="_permutations"/>
+						<Vector Name="_parameters">
+							<MaterialParameterBitFlag32 StringItemID="_renderSettingFlag" ItemID="8" _name="_renderSettingFlag" _value="1" Index="0"/>
+							<MaterialParameterTexture StringItemID="_baseColorTexture" ItemID="7" _name="_baseColorTexture" Index="1">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_ball_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_normalTexture" ItemID="6" _name="_normalTexture" Index="2">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_ball_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_materialTexture" ItemID="5" _name="_materialTexture" Index="3">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_heightTexture" ItemID="4" _name="_heightTexture" Index="4">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_maskTexture" ItemID="2" _name="_maskTexture" Index="5">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_m.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisDiffuseTexture" ItemID="3219133042786302" _name="_irisDiffuseTexture" Index="6">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/zk_phm_00_eye_iris_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisNormalTexture" ItemID="109923340910590" _name="_irisNormalTexture" Index="7">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/zk_phm_00_eye_iris_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisMaterialTexture" ItemID="1853147165229054" _name="_irisMaterialTexture" Index="8">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisHeightTexture" ItemID="1234073990201342" _name="_irisHeightTexture" Index="9">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_pupilTexture" ItemID="4238362294616062" _name="_pupilTexture" Index="10">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_pupil_0001.dds"/>
+							</MaterialParameterTexture>
+						</Vector>
+					</Material>
+				</SkinnedMeshMaterialWrapper>
+			</Vector>
+		</SkinnedMeshProperty>
+	</ModelProperty>
+	<ModelProperty Index="3" Version="Reflection">
+		<SkinnedMeshProperty ReflectObjectXMLDataVersion="9">
+			<Vector Name="_subMeshResources" IdBase="7" isOverrided="true">
+				<SkinnedMeshMaterialWrapper ItemID="7" _subMeshName="cd_phm_00_eyeleft_0001" _jiggleWindWeight="0">
+					<Material Name="_resourceMaterial" _materialName="SkinnedMeshEmissive">
+						<Vector Name="_permutations">
+							<MaterialParameterUint StringItemID="AlphaTest" ItemID="1921855275401214" _name="AlphaTest" _value="1" Index="0"/>
+						</Vector>
+						<Vector Name="_parameters">
+							<MaterialParameterBitFlag32 StringItemID="_renderSettingFlag" ItemID="8" _name="_renderSettingFlag" _value="1" Index="0"/>
+							<MaterialParameterTexture StringItemID="_baseColorTexture" ItemID="7" _name="_baseColorTexture" Index="1">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_normalTexture" ItemID="6" _name="_normalTexture" Index="2">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_materialTexture" ItemID="5" _name="_materialTexture" Index="3">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_heightTexture" ItemID="4" _name="_heightTexture" Index="4">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_maskTexture" ItemID="2" _name="_maskTexture" Index="5">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_m.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterByte4 StringItemID="_dyeingPropertyBlend" ItemID="3323518988058622" _name="_dyeingPropertyBlend" _value="2130706432" Index="6"/>
+							<MaterialParameterByte4 StringItemID="_dyeingTransformProperty0" ItemID="2380709743296510" _name="_dyeingTransformProperty0" _value="65280" Index="7"/>
+							<MaterialParameterByte4 StringItemID="_dyeingTransformProperty1" ItemID="2427310400602110" _name="_dyeingTransformProperty1" _value="65280" Index="8"/>
+							<MaterialParameterByte4 StringItemID="_dyeingTransformProperty3" ItemID="3193012944371710" _name="_dyeingTransformProperty3" _value="65280" Index="9"/>
+							<MaterialParameterByte4 StringItemID="_dyeingTransformProperty4" ItemID="1087104856621054" _name="_dyeingTransformProperty4" _value="2139029504" Index="10"/>
+							<MaterialParameterTexture StringItemID="_emissiveIntensityTexture" ItemID="1638159983050750" _name="_emissiveIntensityTexture" Index="11">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_emi.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterColor StringItemID="_emissiveColor" ItemID="2065176433000446" _name="_emissiveColor" _value="#c47b60ff" Index="12"/>
+						</Vector>
+					</Material>
+				</SkinnedMeshMaterialWrapper>
+			</Vector>
+		</SkinnedMeshProperty>
+	</ModelProperty>
+	<ModelProperty Index="4" Version="Reflection">
+		<SkinnedMeshProperty ReflectObjectXMLDataVersion="9">
+			<Vector Name="_subMeshResources" IdBase="7" isOverrided="true">
+				<SkinnedMeshMaterialWrapper ItemID="7" _subMeshName="cd_phm_00_eyeleft_0001" _jiggleWindWeight="0">
+					<Material Name="_resourceMaterial" _materialName="SkinnedMeshEmissive">
+						<Vector Name="_permutations">
+							<MaterialParameterUint StringItemID="AlphaTest" ItemID="1921855275401214" _name="AlphaTest" _value="1" Index="0"/>
+						</Vector>
+						<Vector Name="_parameters">
+							<MaterialParameterBitFlag32 StringItemID="_renderSettingFlag" ItemID="8" _name="_renderSettingFlag" _value="1" Index="0"/>
+							<MaterialParameterTexture StringItemID="_baseColorTexture" ItemID="7" _name="_baseColorTexture" Index="1">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_normalTexture" ItemID="6" _name="_normalTexture" Index="2">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_materialTexture" ItemID="5" _name="_materialTexture" Index="3">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_heightTexture" ItemID="4" _name="_heightTexture" Index="4">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_maskTexture" ItemID="2" _name="_maskTexture" Index="5">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_m.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterByte4 StringItemID="_dyeingPropertyBlend" ItemID="3323518988058622" _name="_dyeingPropertyBlend" _value="2130706432" Index="6"/>
+							<MaterialParameterByte4 StringItemID="_dyeingTransformProperty0" ItemID="2380709743296510" _name="_dyeingTransformProperty0" _value="65280" Index="7"/>
+							<MaterialParameterByte4 StringItemID="_dyeingTransformProperty1" ItemID="2427310400602110" _name="_dyeingTransformProperty1" _value="65280" Index="8"/>
+							<MaterialParameterByte4 StringItemID="_dyeingTransformProperty3" ItemID="3193012944371710" _name="_dyeingTransformProperty3" _value="65280" Index="9"/>
+							<MaterialParameterByte4 StringItemID="_dyeingTransformProperty4" ItemID="1087104856621054" _name="_dyeingTransformProperty4" _value="2139029504" Index="10"/>
+							<MaterialParameterTexture StringItemID="_emissiveIntensityTexture" ItemID="1638159983050750" _name="_emissiveIntensityTexture" Index="11">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_emi.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterColor StringItemID="_emissiveColor" ItemID="2065176433000446" _name="_emissiveColor" _value="#004bc0ff" Index="12"/>
+						</Vector>
+					</Material>
+				</SkinnedMeshMaterialWrapper>
+			</Vector>
+		</SkinnedMeshProperty>
+	</ModelProperty>
+	<ModelProperty Index="5" Version="Reflection">
+		<SkinnedMeshProperty ReflectObjectXMLDataVersion="9">
+			<Vector Name="_subMeshResources" IdBase="7" isOverrided="true">
+				<SkinnedMeshMaterialWrapper ItemID="7" _subMeshName="cd_phm_00_eyeleft_0001" _jiggleWindWeight="0">
+					<Material Name="_resourceMaterial" _materialName="SkinnedMeshEye">
+						<Vector Name="_permutations"/>
+						<Vector Name="_parameters">
+							<MaterialParameterBitFlag32 StringItemID="_renderSettingFlag" ItemID="8" _name="_renderSettingFlag" _value="1" Index="0"/>
+							<MaterialParameterTexture StringItemID="_baseColorTexture" ItemID="7" _name="_baseColorTexture" Index="1">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_ball_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_normalTexture" ItemID="6" _name="_normalTexture" Index="2">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_ball_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_materialTexture" ItemID="5" _name="_materialTexture" Index="3">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_heightTexture" ItemID="4" _name="_heightTexture" Index="4">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_maskTexture" ItemID="2" _name="_maskTexture" Index="5">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_m.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisDiffuseTexture" ItemID="3219133042786302" _name="_irisDiffuseTexture" Index="6">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/zk_phm_00_eye_iris_0004.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisNormalTexture" ItemID="109923340910590" _name="_irisNormalTexture" Index="7">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/zk_phm_00_eye_iris_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisMaterialTexture" ItemID="1853147165229054" _name="_irisMaterialTexture" Index="8">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisHeightTexture" ItemID="1234073990201342" _name="_irisHeightTexture" Index="9">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_pupilTexture" ItemID="4238362294616062" _name="_pupilTexture" Index="10">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_pupil_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterColor StringItemID="_pupilColor" ItemID="2079328114311166" _name="_pupilColor" _value="#000000ff" Index="11"/>
+							<MaterialParameterByte4 StringItemID="_pupilProperty" ItemID="2730506844110846" _name="_pupilProperty" _value="4201215" Index="12"/>
+						</Vector>
+					</Material>
+				</SkinnedMeshMaterialWrapper>
+			</Vector>
+		</SkinnedMeshProperty>
+	</ModelProperty>
+	<ModelProperty Index="6" Version="Reflection">
+		<SkinnedMeshProperty ReflectObjectXMLDataVersion="9">
+			<Vector Name="_subMeshResources" IdBase="7" isOverrided="true">
+				<SkinnedMeshMaterialWrapper ItemID="7" _subMeshName="cd_phm_00_eyeleft_0001" _jiggleWindWeight="0">
+					<Material Name="_resourceMaterial" _materialName="SkinnedMeshEye">
+						<Vector Name="_permutations"/>
+						<Vector Name="_parameters">
+							<MaterialParameterBitFlag32 StringItemID="_renderSettingFlag" ItemID="8" _name="_renderSettingFlag" _value="1" Index="0"/>
+							<MaterialParameterTexture StringItemID="_baseColorTexture" ItemID="7" _name="_baseColorTexture" Index="1">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_ball_0002.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_normalTexture" ItemID="6" _name="_normalTexture" Index="2">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_ball_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_materialTexture" ItemID="5" _name="_materialTexture" Index="3">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_heightTexture" ItemID="4" _name="_heightTexture" Index="4">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_maskTexture" ItemID="2" _name="_maskTexture" Index="5">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_m.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisDiffuseTexture" ItemID="3219133042786302" _name="_irisDiffuseTexture" Index="6">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/zk_phm_00_eye_iris_0011.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisNormalTexture" ItemID="109923340910590" _name="_irisNormalTexture" Index="7">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/zk_phm_00_eye_iris_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisMaterialTexture" ItemID="1853147165229054" _name="_irisMaterialTexture" Index="8">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisHeightTexture" ItemID="1234073990201342" _name="_irisHeightTexture" Index="9">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_pupilTexture" ItemID="4238362294616062" _name="_pupilTexture" Index="10">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_pupil_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterColor StringItemID="_pupilColor" ItemID="2079328114311166" _name="_pupilColor" _value="#000000ff" Index="11"/>
+							<MaterialParameterByte4 StringItemID="_pupilProperty" ItemID="2730506844110846" _name="_pupilProperty" _value="4212223" Index="12"/>
+						</Vector>
+					</Material>
+				</SkinnedMeshMaterialWrapper>
+			</Vector>
+		</SkinnedMeshProperty>
+	</ModelProperty>
+	<ModelProperty Index="7" Version="Reflection">
+		<SkinnedMeshProperty ReflectObjectXMLDataVersion="9">
+			<Vector Name="_subMeshResources" IdBase="7" isOverrided="true">
+				<SkinnedMeshMaterialWrapper ItemID="7" _subMeshName="cd_phm_00_eyeleft_0001" _jiggleWindWeight="0">
+					<Material Name="_resourceMaterial" _materialName="SkinnedMeshEye">
+						<Vector Name="_permutations"/>
+						<Vector Name="_parameters">
+							<MaterialParameterBitFlag32 StringItemID="_renderSettingFlag" ItemID="8" _name="_renderSettingFlag" _value="1" Index="0"/>
+							<MaterialParameterTexture StringItemID="_baseColorTexture" ItemID="7" _name="_baseColorTexture" Index="1">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_ball_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_normalTexture" ItemID="6" _name="_normalTexture" Index="2">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_ball_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_materialTexture" ItemID="5" _name="_materialTexture" Index="3">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_heightTexture" ItemID="4" _name="_heightTexture" Index="4">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_maskTexture" ItemID="2" _name="_maskTexture" Index="5">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_m.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisDiffuseTexture" ItemID="3219133042786302" _name="_irisDiffuseTexture" Index="6">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/zk_phm_00_eye_iris_0002.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisNormalTexture" ItemID="109923340910590" _name="_irisNormalTexture" Index="7">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/zk_phm_00_eye_iris_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisMaterialTexture" ItemID="1853147165229054" _name="_irisMaterialTexture" Index="8">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisHeightTexture" ItemID="1234073990201342" _name="_irisHeightTexture" Index="9">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_pupilTexture" ItemID="4238362294616062" _name="_pupilTexture" Index="10">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_pupil_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterColor StringItemID="_pupilColor" ItemID="2079328114311166" _name="_pupilColor" _value="#000000ff" Index="11"/>
+							<MaterialParameterByte4 StringItemID="_pupilProperty" ItemID="2730506844110846" _name="_pupilProperty" _value="9178445" Index="12"/>
+						</Vector>
+					</Material>
+				</SkinnedMeshMaterialWrapper>
+			</Vector>
+		</SkinnedMeshProperty>
+	</ModelProperty>
+	<ModelProperty Index="8" Version="Reflection">
+		<SkinnedMeshProperty ReflectObjectXMLDataVersion="9">
+			<Vector Name="_subMeshResources" IdBase="8" isOverrided="true">
+				<SkinnedMeshMaterialWrapper ItemID="8" _subMeshName="cd_phm_00_eyeleft_0001" _jiggleWindWeight="0">
+					<Material Name="_resourceMaterial" _materialName="SkinnedMeshEye">
+						<Vector Name="_permutations"/>
+						<Vector Name="_parameters">
+							<MaterialParameterBitFlag32 StringItemID="_renderSettingFlag" ItemID="8" _name="_renderSettingFlag" _value="1" Index="0"/>
+							<MaterialParameterTexture StringItemID="_baseColorTexture" ItemID="7" _name="_baseColorTexture" Index="1">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_ball_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_normalTexture" ItemID="6" _name="_normalTexture" Index="2">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_ball_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_materialTexture" ItemID="5" _name="_materialTexture" Index="3">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_heightTexture" ItemID="4" _name="_heightTexture" Index="4">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_maskTexture" ItemID="2" _name="_maskTexture" Index="5">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_m.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisDiffuseTexture" ItemID="3219133042786302" _name="_irisDiffuseTexture" Index="6">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/zk_phm_00_eye_iris_0014.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisNormalTexture" ItemID="109923340910590" _name="_irisNormalTexture" Index="7">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/zk_phm_00_eye_iris_0001_n.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisMaterialTexture" ItemID="1853147165229054" _name="_irisMaterialTexture" Index="8">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_sp.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_irisHeightTexture" ItemID="1234073990201342" _name="_irisHeightTexture" Index="9">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_0001_h.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterTexture StringItemID="_pupilTexture" ItemID="4238362294616062" _name="_pupilTexture" Index="10">
+								<ResourceReferencePath_ITexture Name="_value" _path="character/texture/cd_phm_00_eye_pupil_0001.dds"/>
+							</MaterialParameterTexture>
+							<MaterialParameterColor StringItemID="_pupilColor" ItemID="2079328114311166" _name="_pupilColor" _value="#000000ff" Index="11"/>
+							<MaterialParameterByte4 StringItemID="_pupilProperty" ItemID="2730506844110846" _name="_pupilProperty" _value="7546368" Index="12"/>
+						</Vector>
+					</Material>
+				</SkinnedMeshMaterialWrapper>
+			</Vector>
+		</SkinnedMeshProperty>
+	</ModelProperty>
+</ModelPropertyList>
+

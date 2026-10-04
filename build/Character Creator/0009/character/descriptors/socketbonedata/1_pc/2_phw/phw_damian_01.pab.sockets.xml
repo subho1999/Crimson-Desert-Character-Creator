@@ -1,0 +1,91 @@
+﻿<SocketBoneData>
+	<SocketList Count="58">
+		<Socket Name="RHand_Socket" Parent="Bip_Weapon_R" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="LHand_Socket" Parent="Bip_Weapon_L" Rotation="-1.000000 0.000000 0.000000 0.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="UpperWeapon_00_Socket" Parent="Bip_Weapon_C" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="LowerWeapon_00_Socket" Parent="Bip_Weapon_B" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="LForearm_Socket" Parent="Bip_Shield_L" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="RForearm_Socket" Parent="Bip_Shield_R" Rotation="0.888112 0.189919 -0.390799 0.149876" Translation="0.142770 0.056150 -0.009814"/>
+		<Socket Name="Clavicle_L_Socket" Parent="Bip01 L Clavicle" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.101812 0.024656 0.078982"/>
+		<Socket Name="Clavicle_R_Socket" Parent="Bip01 R Clavicle" Rotation="0.000000 0.000000 1.000000 0.000000" Translation="0.101812 -0.024656 0.078982"/>
+		<Socket Name="Spine2_B_MainWeapon_Socket" Parent="Bip_Weapon_Attach_In_02" Rotation="0.637392 -0.191054 -0.154829 0.730245" Translation="-0.067251 -0.068893 -0.006459"/>
+		<Socket Name="Spine2_B_SubWeapon_Socket" Parent="Bip_Weapon_Attach_In_02" Rotation="0.637392 -0.191055 -0.154826 0.730245" Translation="-0.099089 -0.200953 0.015074"/>
+		<Socket Name="Spine2_B_RangeWeapon_Socket" Parent="Bip_Weapon_Attach_In_02" Rotation="0.630147 0.201869 0.127883 0.738789" Translation="-0.006326 -0.054380 -0.000480"/>
+		<Socket Name="Spine2_B_RangeWeapon_Musket_Socket" Parent="Bip_Weapon_Attach_In_02" Rotation="-0.748783 0.486727 0.406384 0.193064" Translation="0.033901 -0.023578 -0.154136"/>
+		<Socket Name="Spine2_B_Shield_Socket" Parent="Bip_Weapon_Attach_In_02" Rotation="-0.164493 0.714296 0.651078 -0.197029" Translation="0.000001 -0.000003 -0.030000"/>
+		<Socket Name="Spine1_B_Socket" Parent="Bip_Weapon_Attach_In_01" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="Spine0_B_Socket" Parent="Bip_Weapon_Attach_In_00" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="Spine1_F_Socket" Parent="Bip_Weapon_Attach_In_03" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="Pelvis_B_Socket" Parent="Bip_Weapon_Attach_In_Pelvis" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="RHand_Lantern_Socket" Parent="Bip_Weapon_R" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="LHand_Lantern_Socket" Parent="Bip_Weapon_L" Rotation="0.500000 0.500000 -0.500000 0.500000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="Pelvis_R_Socket" Parent="B_WeaponIn_L_00" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="Pelvis_L_Socket" Parent="B_WeaponIn_R_00" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="RThigh_Socket" Parent="Bip01 R Thigh" Rotation="-0.522687 -0.000000 0.852525 0.000000" Translation="0.000000 -0.105000 0.100000"/>
+		<Socket Name="LThigh_Socket" Parent="Bip01 L Thigh" Rotation="0.522687 -0.000000 -0.852525 0.000000" Translation="0.000000 0.105000 0.100000"/>
+		<Socket Name="Physics_ThighR_00_Socket" Parent="B_WeaponIn_L_00" Rotation="-0.707107 -0.000007 0.707107 0.000000" Translation="0.048205 -0.009359 0.008107"/>
+		<Socket Name="Catch_Helm_00_Socket" Parent="Bip_Weapon_L" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000" UIView="False"/>
+		<Socket Name="Earring_L_Socket" Parent="B_Ear_02_L" Rotation="-0.910928 -0.041571 0.029821 -0.409382" Translation="-0.009669 0.001157 0.001058"/>
+		<Socket Name="Earring_R_Socket" Parent="B_Ear_02_R" Rotation="-0.018410 0.406733 -0.912648 0.036093" Translation="-0.009352 0.001790 -0.001406"/>
+		<Socket Name="B_Eyeball_R" Parent="B_Eyeball_R" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="B_Eyeball_L" Parent="B_Eyeball_L" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="Ring_R_Socket" Parent="Bip01 R Finger2" Rotation="-0.128213 -0.065503 0.690686 0.708678" Translation="0.028885 -0.000376 -0.006028"/>
+		<Socket Name="Ring_L_Socket" Parent="Bip01 L Finger2" Rotation="-0.064927 -0.130167 0.699478 0.699694" Translation="0.028885 0.003760 -0.006028"/>
+		<Socket Name="Fx_Detect_HP_Socket" Parent="Bip01 L Chest" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="ShieldDrone_Docking_Socket" Parent="" Rotation="0.000000 -0.000001 0.000000 1.000000" Translation="0.723111 1.846191 0.496603"/>
+		<Socket Name="ATAG_Docking_Socket_01" Parent="" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="-1.000000 2.100000 0.500000"/>
+		<Socket Name="InspectSocket_R_Hand" Parent="Bip01 R Hand" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.060000 0.000000 0.000000"/>
+		<Socket Name="InspectSocket_L_Hand" Parent="Bip01 L Hand" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.060000 0.000000 0.000000"/>
+		<Socket Name="InspectSocket_Head" Parent="Bip01 Head" Rotation="-0.475125 -0.084358 0.151071 -0.862739" Translation="0.031813 -0.057908 0.059344"/>
+		<Socket Name="Game_Target_00_Socket" Parent="Bip01 Head" Rotation="0.707107 0.092621 -0.000000 0.701014" Translation="0.117835 -0.070042 0.019276"/>
+		<Socket Name="Game_Target_01_Socket" Parent="Bip01 L Clavicle" Rotation="-0.754460 -0.620950 -0.166119 0.132721" Translation="0.135920 0.061756 -0.122981"/>
+		<Socket Name="Game_Target_02_Socket" Parent="Bip01 Spine1" Rotation="0.087096 0.000000 0.003213 0.996195" Translation="0.022535 -0.108341 0.118757"/>
+		<Socket Name="Gimmick_LHand_00_Socket" Parent="Bip_Weapon_L" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="Gimmick_RHand_00_Socket" Parent="Bip_Weapon_R" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="Gimmick_HandCenter_00_Socket" Parent="Bip_Weapon_C" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="Gimmick_HandCenter_01_Socket" Parent="B_EnemyCatch_C_00" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="Gimmick_Sub_Socket_00" Parent="B_CatchMe_00" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="Gimmick_Sub_Socket_01" Parent="B_EnemyCatch_00" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 0.000000"/>
+		<Socket Name="Dock_F_Socket" Parent="Bip_Weapon_Attach_In_03" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 -0.000000 0.069420"/>
+		<Socket Name="Dock_B_Socket" Parent="Bip_Weapon_Attach_In_01" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 0.000000 -0.112602"/>
+		<Socket Name="BobberStart_Socket" Parent="Bip01" Rotation="0.000000 0.000000 -0.000000 1.000000" Translation="2.980585 -0.079959 0.891597"/>
+		<Socket Name="Spine2_B_Battery_Socket" Parent="Bip_Weapon_Attach_In_02" Rotation="0.705293 0.181676 0.181629 0.660732" Translation="-0.046391 0.093478 -0.000866"/>
+		<Socket Name="Spine2_B_RocketPack_Socket" Parent="Bip_Weapon_Attach_In_02" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 -0.000000 0.000000"/>
+		
+		<Socket Name="AttachRoot_00_Socket" Parent="" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.000000 2.300000 0.300000"/>
+		<Socket Name="AttachRoot_01_Socket" Parent="" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="-0.480000 2.167908 0.300000"/>
+		<Socket Name="AttachRoot_02_Socket" Parent="" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.480000 2.167664 0.300000"/>
+		<Socket Name="AttachRoot_03_Socket" Parent="" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="-0.700000 1.800000 0.300000"/>
+		<Socket Name="AttachRoot_04_Socket" Parent="" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.700000 1.800000 0.300000"/>
+		<Socket Name="AttachRoot_05_Socket" Parent="" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="-0.800000 1.300000 0.300000"/>
+		<Socket Name="AttachRoot_06_Socket" Parent="" Rotation="0.000000 0.000000 0.000000 1.000000" Translation="0.800000 1.300000 0.300000"/>
+	</SocketList>
+	<StackEquipInfo Count="6" EquipTypeName="Back" InnerPartNames="CD_Cloak CD_Upperbody" OriginBoneName="Bip_Weapon_Attach_In_02" Axis="z" PushOriginBone="True">
+		<Socket Name="Spine2_B_MainWeapon_Socket"/>
+		<Socket Name="Spine2_B_SubWeapon_Socket"/>
+		<Socket Name="Spine2_B_RangeWeapon_Musket_Socket"/>
+		<Socket Name="Spine2_B_RangeWeapon_Socket"/>
+		<Socket Name="Spine2_B_Shield_Socket"/>
+		<Socket Name="Spine2_B_RocketPack_Socket"/>
+	</StackEquipInfo>
+	<StackEquipInfo Count="1" EquipTypeName="Ring_R" InnerPartNames="CD_Hand" OriginBoneName="Bip01 R Finger2" Axis="-z">
+		<Socket Name="Ring_R_Socket"/>
+	</StackEquipInfo>
+	<StackEquipInfo Count="1" EquipTypeName="Ring_L" InnerPartNames="CD_Hand" OriginBoneName="Bip01 L Finger2" Axis="-z">
+		<Socket Name="Ring_L_Socket"/>
+	</StackEquipInfo>
+	<StackEquipInfo Count="1" EquipTypeName="Pelvis_L" InnerPartNames="CD_Upperbody" OriginBoneName="B_WeaponIn_L_00" Axis="y">
+		<Socket Name="Pelvis_L_Socket"/>
+	</StackEquipInfo>
+	<StackEquipInfo Count="1" EquipTypeName="Pelvis_R" InnerPartNames="CD_Upperbody" OriginBoneName="B_WeaponIn_R_00" Axis="-y">
+		<Socket Name="Pelvis_R_Socket"/>
+	</StackEquipInfo>
+	<StackEquipInfo Count="1" EquipTypeName="Shoulder_L" InnerPartNames="CD_Cloak CD_Upperbody" OriginBoneName="Bip01 L Clavicle" Axis="y">
+		<Socket Name="Clavicle_L_Socket"/>
+	</StackEquipInfo>
+	<StackEquipInfo Count="1" EquipTypeName="Shoulder_R" InnerPartNames="CD_Cloak CD_Upperbody" OriginBoneName="Bip01 R Clavicle" Axis="-y">
+		<Socket Name="Clavicle_R_Socket"/>
+	</StackEquipInfo>
+	<VertexSocketList Count="0"/>
+</SocketBoneData>
+

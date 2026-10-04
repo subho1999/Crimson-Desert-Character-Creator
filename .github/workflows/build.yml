@@ -1,0 +1,41 @@
+# Builds the plugin (Release x64, MSVC) and assembles the release zip
+# exactly like tools/make_release.py does locally. The gitignored build/
+# inputs (CharacterCreator.data + the 0009/0012 game files, recovered once
+# with tools/extract_build_inputs.py) are committed to this branch, so the
+# build needs no game installed.
+name: build
+
+on:
+  push:
+    branches: [proton-work]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: microsoft/setup-msbuild@v2
+
+      - name: Check build inputs
+        run: |
+          if (!(Test-Path build/CharacterCreator.data)) { throw 'missing build/CharacterCreator.data - run tools/extract_build_inputs.py once and commit build/' }
+          if (!(Test-Path 'build/Character Creator/mod.json')) { throw 'missing build/Character Creator - run tools/extract_build_inputs.py once and commit build/' }
+          python -c "import lz4" 2>$null; if ($LASTEXITCODE -ne 0) { pip install lz4 }
+
+      - name: Build plugin (Release x64)
+        run: msbuild CharacterCreator/CharacterCreator/CharacterCreator.vcxproj /p:Configuration=Release /p:Platform=x64 /v:minimal /nologo
+
+      - name: Assemble release
+        run: python tools/make_release.py
+
+      - name: Verify package layout
+        run: |
+          $zip = Get-ChildItem dist/*.zip | Select-Object -First 1
+          python tools/check_release.py $zip.FullName
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Character-Creator
+          path: dist/*.zip

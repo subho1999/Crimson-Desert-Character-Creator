@@ -5,7 +5,10 @@ x64/
 build/
 build_safe/
 dist/
-__pycache__/
+__pycache__
+
+/output/
+/*.log
 armor_fit/
 armor_fit_stage/
 armor_fit_logs/
