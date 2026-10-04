@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdio.h>
+
 // The three playable characters. Each has their own look, eye colour, gender
 // and race, kept in their own files (see CharacterFile).
 enum Character
