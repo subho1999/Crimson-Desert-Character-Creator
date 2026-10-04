@@ -136,6 +136,9 @@ static DWORD WINAPI MainThread(LPVOID)
             IdentityPoll();
         MenuPoll();
 
+        if (reshadeTab)
+            ReshadeMenuPoll();
+
 
         // F6 / F7 / F8 (CharacterCreator.ini) open and close the editor for
         // Kliff / Damiane / Oongka. Uses the "is down" bit: the "pressed since

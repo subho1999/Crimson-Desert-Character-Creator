@@ -739,21 +739,15 @@ void MenuToggle(int ch)
 
 static bool g_sessionOpen = false;
 
-void MenuSessionBegin(int ch)
+// The body of MenuSessionBegin, for a caller already holding the menu lock
+// (the tab draws its clicks while holding it, like MenuDraw did).
+static void BeginLocked(int ch)
 {
-    if (ch < 0 || ch >= CHARACTER_COUNT)
-        return;
-
-    AcquireSRWLockExclusive(&g_lock);
-
     // Switching characters keeps the current one's changes, like MenuToggle.
     if (g_sessionOpen)
     {
         if (ch == g_char)
-        {
-            ReleaseSRWLockExclusive(&g_lock);
             return;
-        }
 
         Keep();
     }
@@ -767,30 +761,47 @@ void MenuSessionBegin(int ch)
         Log("menu session opened for %S (ReShade tab)", CHARACTER_NAMES[ch]);
         GameLogCharacter(ch);
     }
+}
 
+void MenuSessionBegin(int ch)
+{
+    if (ch < 0 || ch >= CHARACTER_COUNT)
+        return;
+
+    AcquireSRWLockExclusive(&g_lock);
+    BeginLocked(ch);
     ReleaseSRWLockExclusive(&g_lock);
+}
+
+// The body of MenuSessionEnd, for a caller already holding the menu lock.
+static void EndLocked(bool keep)
+{
+    if (!g_sessionOpen)
+        return;
+
+    g_sessionOpen = false;
+
+    if (keep)
+        Keep();
+    else
+        Cancel();
 }
 
 void MenuSessionEnd(bool keep)
 {
     AcquireSRWLockExclusive(&g_lock);
-
-    if (g_sessionOpen)
-    {
-        g_sessionOpen = false;
-
-        if (keep)
-            Keep();
-        else
-            Cancel();
-    }
-
+    EndLocked(keep);
     ReleaseSRWLockExclusive(&g_lock);
 }
 
 bool MenuSessionOpen()
 {
     return g_sessionOpen;
+}
+
+int MenuSessionCharacter()
+{
+    return g_char;
 }
 
 // ---------------------------------------------------------------------------
@@ -985,10 +996,10 @@ static void AdjustSlider(int delta)
     SetValue(index, g_view.decoration[index] + delta);
 }
 
-void MenuKey(int vk)
+// The key handling itself, lock-free: MenuKey takes the lock for the overlay
+// path, MenuSessionKey for the ReShade tab.
+static void MenuKeyLocked(int vk)
 {
-    AcquireSRWLockExclusive(&g_lock);
-
     bool shift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
     const Page& page = CurrentPage();
     bool sliders = page.kind == PAGE_SLIDERS;
@@ -1066,8 +1077,29 @@ void MenuKey(int vk)
             g_tab = 9;
         break;
     }
+}
+
+void MenuKey(int vk)
+{
+    AcquireSRWLockExclusive(&g_lock);
+    MenuKeyLocked(vk);
+    ReleaseSRWLockExclusive(&g_lock);
+}
+
+bool MenuSessionKey(int vk)
+{
+    AcquireSRWLockExclusive(&g_lock);
+    MenuKeyLocked(vk);
+
+    // Keep/Cancel above already ran; closing the session here mirrors the
+    // overlay path, where they also hid the panel.
+    bool closed = (vk == VK_ESCAPE || vk == VK_RETURN || vk == VK_SPACE) && g_sessionOpen;
+
+    if (closed)
+        g_sessionOpen = false;
 
     ReleaseSRWLockExclusive(&g_lock);
+    return closed;
 }
 
 // ---------------------------------------------------------------------------
@@ -1554,6 +1586,465 @@ void MenuDraw(const OverlayDrawContext& ctx)
 
     Text(dc, L"[Space] Keep     [Esc] Cancel", st.big, D2D1::RectF(x0, footerTop + 6 * s, x1, footerTop + 40 * s), st.text);
     Text(dc, keys.c_str(), st.caption, D2D1::RectF(x0, footerTop + 40 * s, x1, y1 - 6 * s), st.dim);
+
+    ReleaseSRWLockExclusive(&g_lock);
+}
+
+// ---------------------------------------------------------------------------
+// ReShade tab menu (Phase 1: text cells; icons come in Phase 2)
+//
+// The same tabs, pages, grid, sliders, colours, notes and keys as MenuDraw,
+// drawn with Dear ImGui inside ReShade's overlay. Game logic (BuildItems,
+// Choose, SetValue, Open/Keep/Cancel, camera, FitCharacter) is shared, not
+// copied: this section only presents and forwards clicks. It holds the menu
+// lock while drawing, exactly like MenuDraw did.
+// ---------------------------------------------------------------------------
+
+#pragma warning(push, 0)
+#include <imgui.h>
+#include <reshade.hpp>
+#pragma warning(pop)
+
+static const ImVec4 TAB_GOLD = ImVec4(0.93f, 0.76f, 0.45f, 1.0f);
+static const ImVec4 TAB_TEXT = ImVec4(0.93f, 0.91f, 0.87f, 1.0f);
+static const ImVec4 TAB_DIM = ImVec4(0.62f, 0.60f, 0.56f, 1.0f);
+static const ImVec4 TAB_ON = ImVec4(0.55f, 0.39f, 0.15f, 1.0f);
+static const ImVec4 TAB_OFF = ImVec4(0.16f, 0.13f, 0.09f, 1.0f);
+
+// Text from a narrow string (single-argument TextUnformatted is Dear ImGui
+// proper, but the SDK stub only wraps the two-argument form).
+static void T(const std::string& s)
+{
+    ImGui::TextUnformatted(s.c_str(), NULL);
+}
+
+static std::string Utf8(const std::wstring& s)
+{
+    if (s.empty())
+        return std::string();
+
+    int n = WideCharToMultiByte(CP_UTF8, 0, s.c_str(), (int)s.size(), NULL, 0, NULL, NULL);
+
+    if (n <= 0)
+        return std::string();
+
+    std::string out((size_t)n, 0);
+    WideCharToMultiByte(CP_UTF8, 0, s.c_str(), (int)s.size(), &out[0], n, NULL, NULL);
+    return out;
+}
+
+// Dual keyboard/mouse contract (see MenuSessionKey polling in
+// reshade_menu.cpp): while a widget holds keyboard focus, Space/Enter belong
+// to it, and arrows belong to a focused slider. Tracked across frames.
+static bool s_widgetFocused = false;        // a button, swatch or slider, last frame
+static bool s_sliderFocused = false;        // a slider, last frame
+static bool s_widgetFocusedNow = false;
+static bool s_sliderFocusedNow = false;
+
+bool MenuTabWidgetFocused(bool slider)
+{
+    return slider ? s_sliderFocused : s_widgetFocused;
+}
+
+static bool CButton(const char* label, const ImVec2& size)
+{
+    bool clicked = ImGui::Button(label, size);
+
+    if (ImGui::IsItemFocused())
+        s_widgetFocusedNow = true;
+
+    return clicked;
+}
+
+static bool CColor(const char* id, const ImVec4& color, const ImVec2& size)
+{
+    bool clicked = ImGui::ColorButton(id, color, ImGuiColorEditFlags_None, size);
+
+    if (ImGui::IsItemFocused())
+        s_widgetFocusedNow = true;
+
+    return clicked;
+}
+
+static bool CSlider(const char* label, int* value, int lo, int hi, const char* format)
+{
+    bool changed = ImGui::SliderInt(label, value, lo, hi, format, ImGuiSliderFlags_None);
+
+    if (ImGui::IsItemFocused())
+    {
+        s_widgetFocusedNow = true;
+        s_sliderFocusedNow = true;
+    }
+
+    return changed;
+}
+
+// Display range and current value of one slider row, mirroring MenuDraw.
+static void SliderRangeLocked(int row, int* lo, int* hi, int* value)
+{
+    const Page& page = CurrentPage();
+    int index = page->sliders[row];
+
+    if (index == SLIDER_HEIGHT)
+    {
+        *lo = HEIGHT_MIN;
+        *hi = HEIGHT_MAX;
+        *value = IdentityHeight(g_char);
+    }
+    else
+    {
+        const DecorationParam& p = g_data.params[index];
+        *lo = p.known ? p.min : 0;
+        *hi = p.known && p.max > *lo ? p.max : 100;
+        *value = g_view.decoration[index];
+    }
+}
+
+// Applies one slider row's value; the mouse counterpart of AdjustSlider.
+static void SetSliderLocked(int row, int value)
+{
+    const Page& page = CurrentPage();
+
+    if (row < 0 || row >= page->sliderCount)
+        return;
+
+    int index = page->sliders[row];
+
+    if (index == SLIDER_HEIGHT)
+    {
+        IdentityChooseHeight(g_char, value < HEIGHT_MIN ? HEIGHT_MIN : value > HEIGHT_MAX ? HEIGHT_MAX : value);
+        return;
+    }
+
+    SetValue(index, value);
+}
+
+// Picks one grid option; the mouse counterpart of MoveSelection.
+static void ClickLocked(int item)
+{
+    const Page& page = CurrentPage();
+    std::vector<Item> items;
+    int selected;
+    BuildItems(page, &items, &selected);
+
+    if (item >= 0 && item < (int)items.size() && item != selected)
+        Choose(page, items[item]);
+}
+
+// The last drawn selection, to scroll a newly chosen option into view.
+static int s_drawTab = -1, s_drawPage = -1, s_drawSelected = -2;
+
+void MenuDrawTab(void* runtimePtr)
+{
+    reshade::api::effect_runtime* runtime = (reshade::api::effect_runtime*)runtimePtr;
+
+    s_widgetFocusedNow = false;
+    s_sliderFocusedNow = false;
+
+    AcquireSRWLockExclusive(&g_lock);   // drawing also scrolls the grid
+
+    if (g_unsupported)
+    {
+        T("Character Creator");
+        ImGui::TextWrapped("This version of the game is not supported by this version of Character Creator. "
+            "Nothing has been changed. Please check the mod page for an update.");
+        ReleaseSRWLockExclusive(&g_lock);
+        return;
+    }
+
+    if (!g_sessionOpen || !g_dataLoaded)
+    {
+        T("Character Creator: still loading...");
+        ReleaseSRWLockExclusive(&g_lock);
+        return;
+    }
+
+    // Whose look is edited.
+    for (int ch = 0; ch < CHARACTER_COUNT; ++ch)
+    {
+        if (ch > 0)
+            ImGui::SameLine(0.0f, 4.0f);
+
+        std::string label = Utf8(CHARACTER_NAMES[ch]) + "##ccch" + std::string(1, (char)('0' + ch));
+        bool on = ch == g_char;
+
+        if (on)
+            ImGui::PushStyleColor(ImGuiCol_Button, TAB_ON);
+
+        if (CButton(label.c_str(), ImVec2(0, 0)))
+            BeginLocked(ch);
+
+        if (on)
+            ImGui::PopStyleColor(1);
+    }
+
+    const Tab* tab = NULL;
+    const Page* page = NULL;
+    std::vector<Item> items;
+    int selected = -1;
+
+    // Re-reads tab/page/items after clicks above may have changed them, so
+    // the rest of the frame never shows the previous tab's content.
+    auto refresh = [&]()
+    {
+        tab = &TABS[g_tab];
+        page = &CurrentPage();
+        BuildItems(*page, &items, &selected);
+    };
+    refresh();
+
+    // Title: "Hair 1/3: Hair 12 / 61", like MenuDraw.
+    wchar_t title[256];
+
+    if (page->kind == PAGE_SLIDERS)
+        swprintf_s(title, L"%s  |  %s %d/%d: %s", CHARACTER_NAMES[g_char], TabLabel(*tab), g_page[g_tab] + 1,
+            tab->pageCount, PageLabel(*tab, g_page[g_tab]));
+    else
+        swprintf_s(title, L"%s  |  %s %d/%d: %s %d / %d", CHARACTER_NAMES[g_char], TabLabel(*tab), g_page[g_tab] + 1,
+            tab->pageCount, PageLabel(*tab, g_page[g_tab]), selected + 1, (int)items.size());
+
+    ImGui::PushStyleColor(ImGuiCol_Text, TAB_GOLD);
+    T(Utf8(title));
+    ImGui::PopStyleColor(1);
+
+    // Sub-pages (clickable here; Q / E work as before).
+    for (int i = 0; i < tab->pageCount; ++i)
+    {
+        if (i > 0)
+            ImGui::SameLine(0.0f, 4.0f);
+
+        std::string label = (i == g_page[g_tab] ? "[ " : "") + Utf8(PageLabel(*tab, i)) +
+            (i == g_page[g_tab] ? " ]" : "") + "##ccpg" + std::to_string(i);
+        bool current = i == g_page[g_tab];
+
+        if (current)
+            ImGui::PushStyleColor(ImGuiCol_Text, TAB_GOLD);
+
+        if (ImGui::SmallButton(label.c_str()) && !current)
+        {
+            g_page[g_tab] = i;
+            g_scrollRow = g_sliderRow = 0;
+            refresh();
+        }
+
+        if (current)
+            ImGui::PopStyleColor(1);
+    }
+
+    ImGui::TextDisabled("Tab: area    Q / E: page    Arrows / WASD: choose    R: face / body");
+
+    // Area tab bar, three rows like MenuDraw.
+    const int perRow = (TAB_COUNT + TAB_ROWS - 1) / TAB_ROWS;
+    float tabW = ImGui::GetContentRegionAvail().x / perRow;
+
+    for (int i = 0; i < TAB_COUNT; ++i)
+    {
+        if (i % perRow)
+            ImGui::SameLine(0.0f, 4.0f);
+
+        std::string label = Utf8(TabLabel(TABS[i])) + "##cctab" + std::to_string(i);
+        bool on = i == g_tab;
+
+        if (on)
+        {
+            ImGui::PushStyleColor(ImGuiCol_Button, TAB_ON);
+            ImGui::PushStyleColor(ImGuiCol_Text, TAB_GOLD);
+        }
+
+        if (CButton(label.c_str(), ImVec2(tabW - (on ? 0.0f : 4.0f), 0)) && !on)
+        {
+            g_tab = i;
+            g_scrollRow = g_sliderRow = 0;
+            refresh();
+        }
+
+        if (on)
+            ImGui::PopStyleColor(2);
+    }
+
+    if (page->kind == PAGE_SLIDERS)
+    {
+        for (int i = 0; i < page->sliderCount; ++i)
+        {
+            int lo, hi, value;
+            SliderRangeLocked(i, &lo, &hi, &value);
+            bool height = page->sliders[i] == SLIDER_HEIGHT;
+
+            std::string name = (i == g_sliderRow ? "[ " : "") + Utf8(page->sliderNames[i]) +
+                (i == g_sliderRow ? " ]" : "");
+
+            if (i == g_sliderRow)
+                ImGui::PushStyleColor(ImGuiCol_Text, TAB_GOLD);
+
+            T(name);
+
+            if (i == g_sliderRow)
+                ImGui::PopStyleColor(1);
+
+            std::string id = "##ccsl" + std::to_string(i);
+            const char* format = height ? (value ? "%+d%%" : "0%%") : "%d";
+            int edited = value;
+
+            if (CSlider(id.c_str(), &edited, lo, hi, format) && edited != value)
+                SetSliderLocked(i, edited);
+        }
+
+        ImGui::TextDisabled("Up / Down: value     Left / Right: adjust     Shift: x10");
+    }
+    else
+    {
+        bool jumped = s_drawTab != g_tab || s_drawPage != g_page[g_tab] || s_drawSelected != selected;
+        s_drawTab = g_tab;
+        s_drawPage = g_page[g_tab];
+        s_drawSelected = selected;
+
+        if (ImGui::BeginChild("cc_grid", ImVec2(0, 300), ImGuiChildFlags_Borders, ImGuiWindowFlags_None))
+        {
+            float innerW = ImGui::GetContentRegionAvail().x / GRID_COLUMNS;
+            float cw = innerW - 4.0f;
+
+            if (cw < 8.0f)
+                cw = 8.0f;
+
+            for (int i = 0; i < (int)items.size(); ++i)
+            {
+                if (i % GRID_COLUMNS)
+                    ImGui::SameLine(0.0f, 4.0f);
+
+                const Item& it = items[i];
+                bool on = i == selected;
+                std::string id = "##cc" + std::to_string(i);
+
+                ImGui::BeginGroup();
+
+                if (on)
+                {
+                    ImGui::PushStyleColor(ImGuiCol_Button, TAB_ON);
+                    ImGui::PushStyleColor(ImGuiCol_Text, TAB_GOLD);
+                }
+
+                if (it.hasColor)
+                {
+                    if (CColor(id.c_str(), ImVec4(it.r / 255.0f, it.g / 255.0f, it.b / 255.0f, 1.0f),
+                            ImVec2(cw, 44.0f)))
+                        ClickLocked(i);
+                }
+                else
+                {
+                    std::string label = Utf8(it.label) + id;
+
+                    if (CButton(label.c_str(), ImVec2(cw, 44.0f)))
+                        ClickLocked(i);
+                }
+
+                if (on)
+                    ImGui::PopStyleColor(2);
+
+                // Caption under the cell, like MenuDraw ("[ Hair 12 ]" when chosen).
+                std::string caption = (on ? "[ " : "") + Utf8(it.label) + (on ? " ]" : "");
+
+                if (on)
+                    ImGui::PushStyleColor(ImGuiCol_Text, TAB_GOLD);
+
+                T(caption);
+
+                if (on)
+                {
+                    ImGui::PopStyleColor(1);
+                    ImGui::SetItemDefaultFocus();
+
+                    if (jumped)
+                        ImGui::SetScrollHereY(0.5f);
+                }
+
+                ImGui::EndGroup();
+            }
+
+            if (items.empty())
+                ImGui::TextDisabled("Nothing to choose here for this character");
+        }
+
+        ImGui::EndChild();
+    }
+
+    // Footer notes, same conditions as MenuDraw.
+    std::wstring note;
+
+    if (page->kind == PAGE_GENDER || page->kind == PAGE_RACE)
+    {
+        bool pending = FilterGender() != g_gender || FilterRace() != g_race ||
+            (g_gender == GENDER_FEMALE && IdentityFemaleMoves(g_char) != IdentityStartFemaleMoves(g_char));
+
+        note = pending
+            ? L"Chosen for the next start. Restart the game to see this gender and race."
+            : L"Gender and race change skeleton, animations and body: they apply after restarting the game.";
+    }
+
+    if (page->kind == PAGE_SLIDERS && page->sliders[0] == SLIDER_HEIGHT)
+    {
+        note = IdentityHeight(g_char) != IdentityLoadedHeight(g_char)
+            ? L"Preview: restart the game so the body and animations fit this height."
+            : L"Height shows at once; after a change, restart the game so the body and animations fit.";
+    }
+
+    if (page->kind == PAGE_EYES)
+    {
+        note = EyesOwnHeadsOff()
+            ? L"Eye colour is off: another mod (Cloak Remover or similar) replaces the game's part table."
+            : L"Only your character's eyes change, not NPCs'.";
+    }
+
+    if (note.empty() && (page->kind == PAGE_COLOR || page->kind == PAGE_TYPE || page->kind == PAGE_SLIDERS) &&
+        !GameCharacterHasValues(g_char))
+    {
+        wchar_t absent[160];
+        swprintf_s(absent, L"%s has no colours yet: they are being set up - colours and tattoos work in a moment.",
+            CHARACTER_NAMES[g_char]);
+        note = absent;
+    }
+
+    if (note.empty() && !GameCharacterPresent(g_char))
+    {
+        wchar_t absent[160];
+        swprintf_s(absent, L"%s is not in the game right now: changes are saved and applied when they appear.",
+            CHARACTER_NAMES[g_char]);
+        note = absent;
+    }
+
+    if (!note.empty())
+        ImGui::TextWrapped("%s", Utf8(note).c_str());
+
+    // A restart applies gender, race, animations and height: with no overlay
+    // of its own while closed, the tab shows the pending restart itself.
+    std::wstring restart = RestartNeeded(g_char);
+
+    if (!restart.empty())
+    {
+        ImGui::PushStyleColor(ImGuiCol_Text, TAB_GOLD);
+        ImGui::TextWrapped("%s", Utf8(std::wstring(CHARACTER_NAMES[g_char]) + L"'s " + restart +
+            L" will be fully applied after restarting the game.").c_str());
+        ImGui::PopStyleColor(1);
+    }
+
+    ImGui::Separator();
+    T("[Space] Keep     [Esc] Cancel     HOME: close overlay");
+
+    if (CButton("Keep", ImVec2(0, 0)))
+    {
+        EndLocked(true);
+        runtime->open_overlay(false, reshade::api::input_source::keyboard);
+    }
+
+    ImGui::SameLine(0.0f, 4.0f);
+
+    if (CButton("Cancel", ImVec2(0, 0)))
+    {
+        EndLocked(false);
+        runtime->open_overlay(false, reshade::api::input_source::keyboard);
+    }
+
+    s_widgetFocused = s_widgetFocusedNow;
+    s_sliderFocused = s_sliderFocusedNow;
 
     ReleaseSRWLockExclusive(&g_lock);
 }

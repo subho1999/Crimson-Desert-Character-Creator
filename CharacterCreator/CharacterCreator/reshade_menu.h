@@ -12,3 +12,7 @@
 
 bool ReshadeMenuInit(HMODULE module);
 bool ReshadeMenuActive();
+
+// Call regularly from the plugin thread: ends the session (kept) when the
+// tab has been hidden a while (switching tabs fires no event).
+void ReshadeMenuPoll();

@@ -1,9 +1,10 @@
-// The editor as a ReShade addon tab (Phase 0: lifecycle only).
+// The editor as a ReShade addon tab (Phase 1: full menu, text cells).
 //
-// Registers a "Character Creator" tab with ReShade and drives the menu
-// session (see MenuSessionBegin/End in menu.cpp) from the ReShade overlay's
-// open/close state. Keyboard and mouse reach the tab through ReShade; while
-// the tab draws, game input is blocked for the frame.
+// Registers a "Character Creator" tab with ReShade. The tab draws only while
+// selected, so the menu session (and its camera zoom) starts on the first
+// drawn frame and never merely because the overlay opened for another tab.
+// Closing the overlay keeps the changes; leaving the tab ends the session
+// through the watchdog below (ReshadeMenuPoll), also keeping them.
 //
 // Every ImGui call below runs inside ReShade's overlay callback, where its
 // ImGui function table is valid. Nothing here touches the D2D overlay.
@@ -23,55 +24,91 @@ static HMODULE g_reshadeModule = NULL;
 static bool g_reshadeTab = false;
 static int g_lastCharacter = CHAR_KLIFF;
 
-// Labels are plain ASCII like CHARACTER_NAMES; narrow copies avoid a
-// wide-to-UTF-8 helper until the full menu (Phase 1) needs one.
-static const char* const CHARACTER_LABELS[CHARACTER_COUNT] = { "Kliff", "Damiane", "Oongka" };
+// Overlay state for the watchdog: set by the open/close event, draw time by
+// the tab callback (which only runs while the tab is visible).
+static bool g_overlayOpen = false;
+static DWORD g_lastDrawTick = 0;
 
-// Phase 0 tab: proves the tab draws, the session opens with the camera zoom,
-// characters switch, and closing keeps the changes.
+// Leaving the tab for this long ends the session (kept), restoring the
+// camera: switching tabs fires no event, so absence of draws is the signal.
+static const DWORD TAB_HIDDEN_TIMEOUT_MS = 2000;
+
+// Keys polled every drawn frame, mirroring the overlay menu's scheme.
+static const int POLL_KEYS[] = {
+    VK_TAB, 'Q', 'E', VK_OEM_4, VK_OEM_6,
+    VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, 'A', 'D', 'W', 'S',
+    'R', VK_RETURN, VK_SPACE, VK_ESCAPE, VK_PRIOR, VK_NEXT,
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+};
+
+static bool SkipForFocus(int vk, bool widget, bool slider)
+{
+    // A focused widget owns Space/Enter; a focused slider owns the arrows
+    // (and PgUp/PgDn) too. Everything else stays on the menu scheme, so a
+    // keyboard-only user (never focused anything) keeps full control.
+    if ((vk == VK_SPACE || vk == VK_RETURN) && widget)
+        return true;
+
+    if (slider && (vk == VK_LEFT || vk == VK_RIGHT || vk == VK_UP || vk == VK_DOWN ||
+        vk == 'A' || vk == 'D' || vk == 'W' || vk == 'S' || vk == VK_PRIOR || vk == VK_NEXT))
+        return true;
+
+    return false;
+}
+
 static void DrawTab(reshade::api::effect_runtime* runtime)
 {
+    g_lastDrawTick = GetTickCount();
+
+    // Lazy session start: the callback runs only while the tab is visible,
+    // so merely opening the overlay for another tab starts nothing.
+    if (MenuSessionOpen())
+        g_lastCharacter = MenuSessionCharacter();
+    else
+        MenuSessionBegin(g_lastCharacter);
+
     runtime->block_input_next_frame();
 
-    ImGui::TextUnformatted("Character Creator (ReShade tab, Phase 0)");
-    ImGui::Separator();
+    bool widget = MenuTabWidgetFocused(false);
+    bool slider = MenuTabWidgetFocused(true);
 
-    for (int ch = 0; ch < CHARACTER_COUNT; ++ch)
+    for (int vk : POLL_KEYS)
     {
-        if (ch > 0)
-            ImGui::SameLine();
+        if (SkipForFocus(vk, widget, slider))
+            continue;
 
-        if (ImGui::Button(CHARACTER_LABELS[ch], ImVec2(0, 0)))
+        if (runtime->is_key_pressed(vk))
         {
-            g_lastCharacter = ch;
-            MenuSessionBegin(ch);
+            if (MenuSessionKey(vk))
+            {
+                runtime->open_overlay(false, reshade::api::input_source::keyboard);
+                return;
+            }
         }
     }
 
-    ImGui::Text("session: %s", MenuSessionOpen() ? "open" : "closed");
-
-    if (MenuSessionOpen() && ImGui::Button("Keep changes and close", ImVec2(0, 0)))
-    {
-        MenuSessionEnd(true);
-        runtime->open_overlay(false, reshade::api::input_source::keyboard);
-    }
+    MenuDrawTab(runtime);
 }
 
-// The overlay opening for any reason starts the session (the camera zoom is
-// the visible proof); closing it keeps the changes, like the hotkey path.
+// Closing the overlay keeps the session's changes, like the hotkey path.
+// ReShade itself closes on Esc while the overlay has focus: still pressed in
+// this frame then, Esc keeps its cancel meaning instead.
 static bool OnOverlayOpenClose(reshade::api::effect_runtime* runtime, bool open,
     reshade::api::input_source source)
 {
-    (void)runtime;
     (void)source;
 
     if (open)
     {
-        if (!MenuSessionOpen())
-            MenuSessionBegin(g_lastCharacter);
+        g_overlayOpen = true;
     }
-    else if (MenuSessionOpen())
-        MenuSessionEnd(true);
+    else
+    {
+        g_overlayOpen = false;
+
+        if (MenuSessionOpen())
+            MenuSessionEnd(!runtime->is_key_pressed(VK_ESCAPE));
+    }
 
     return false;   // never vetoes the state change
 }
@@ -95,4 +132,13 @@ bool ReshadeMenuInit(HMODULE module)
 bool ReshadeMenuActive()
 {
     return g_reshadeTab;
+}
+
+void ReshadeMenuPoll()
+{
+    if (g_overlayOpen && MenuSessionOpen() && GetTickCount() - g_lastDrawTick > TAB_HIDDEN_TIMEOUT_MS)
+    {
+        Log("reshade tab: hidden, keeping the session's changes");
+        MenuSessionEnd(true);
+    }
 }

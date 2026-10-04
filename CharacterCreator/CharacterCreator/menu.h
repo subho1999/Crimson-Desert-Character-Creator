@@ -22,6 +22,20 @@ void MenuToggle(int ch);
 void MenuSessionBegin(int ch);
 void MenuSessionEnd(bool keep);     // true = Keep, false = Cancel
 bool MenuSessionOpen();
+int MenuSessionCharacter();         // whose look the open session edits
+
+// Feeds one key press to the open session (the tab polls ReShade's input).
+// Returns true when the press closed the session (Keep/Cancel), so the
+// caller can close the overlay too. Game logic untouched.
+bool MenuSessionKey(int vk);
+
+// True when a tab widget held keyboard focus on the last drawn frame
+// (slider = only sliders): the key poll leaves those keys to ImGui.
+bool MenuTabWidgetFocused(bool slider);
+
+// Draws the whole menu into the ReShade tab (Phase 1: text cells, icons in
+// Phase 2). Holds the menu lock while drawing, like MenuDraw did.
+void MenuDrawTab(void* runtime);
 
 void MenuDraw(const OverlayDrawContext& ctx);
 void MenuKey(int vk);
