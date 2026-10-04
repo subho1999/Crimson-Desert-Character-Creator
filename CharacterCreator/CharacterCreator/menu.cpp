@@ -1683,7 +1683,7 @@ static bool CSlider(const char* label, int* value, int lo, int hi, const char* f
 static void SliderRangeLocked(int row, int* lo, int* hi, int* value)
 {
     const Page& page = CurrentPage();
-    int index = page->sliders[row];
+    int index = page.sliders[row];
 
     if (index == SLIDER_HEIGHT)
     {
@@ -1705,10 +1705,10 @@ static void SetSliderLocked(int row, int value)
 {
     const Page& page = CurrentPage();
 
-    if (row < 0 || row >= page->sliderCount)
+    if (row < 0 || row >= page.sliderCount)
         return;
 
-    int index = page->sliders[row];
+    int index = page.sliders[row];
 
     if (index == SLIDER_HEIGHT)
     {
