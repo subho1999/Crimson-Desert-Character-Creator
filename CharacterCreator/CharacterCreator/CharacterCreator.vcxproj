@@ -164,6 +164,7 @@
     <ClInclude Include="eyes.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="switches.h" />
+    <ClInclude Include="tab_icons.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="addresses.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="watch.cpp" />
     <ClCompile Include="glide.cpp" />
     <ClCompile Include="switches.cpp" />
+    <ClCompile Include="tab_icons.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -1605,6 +1605,8 @@ void MenuDraw(const OverlayDrawContext& ctx)
 #include <reshade.hpp>
 #pragma warning(pop)
 
+#include "tab_icons.h"
+
 static const ImVec4 TAB_GOLD = ImVec4(0.93f, 0.76f, 0.45f, 1.0f);
 static const ImVec4 TAB_TEXT = ImVec4(0.93f, 0.91f, 0.87f, 1.0f);
 static const ImVec4 TAB_DIM = ImVec4(0.62f, 0.60f, 0.56f, 1.0f);
@@ -1649,6 +1651,17 @@ bool MenuTabWidgetFocused(bool slider)
 static bool CButton(const char* label, const ImVec2& size)
 {
     bool clicked = ImGui::Button(label, size);
+
+    if (ImGui::IsItemFocused())
+        s_widgetFocusedNow = true;
+
+    return clicked;
+}
+
+static bool CImage(const char* id, uint64_t texture, const ImVec2& size)
+{
+    bool clicked = ImGui::ImageButton(id, (ImTextureID)texture, size,
+        ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, 1));
 
     if (ImGui::IsItemFocused())
         s_widgetFocusedNow = true;
@@ -1898,6 +1911,10 @@ void MenuDrawTab(void* runtimePtr)
         s_drawPage = g_page[g_tab];
         s_drawSelected = selected;
 
+        // At most a few icons per frame, like the overlay's budget: opening a
+        // big list must not stutter on uploads.
+        int budget = 6;
+
         if (ImGui::BeginChild("cc_grid", ImVec2(0, 300), ImGuiChildFlags_Borders, ImGuiWindowFlags_None))
         {
             float innerW = ImGui::GetContentRegionAvail().x / GRID_COLUMNS;
@@ -1931,9 +1948,20 @@ void MenuDrawTab(void* runtimePtr)
                 }
                 else
                 {
+                    // The icon, or the text cell while it loads (or has none).
+                    unsigned iw = 0, ih = 0;
+                    uint64_t tex = TabIcon(runtime, it.icon, &iw, &ih, &budget);
                     std::string label = Utf8(it.label) + id;
 
-                    if (CButton(label.c_str(), ImVec2(cw, 44.0f)))
+                    if (tex && iw && ih)
+                    {
+                        // Aspect fit, like the overlay's DrawBitmap fit.
+                        float k = min(cw / (float)iw, 64.0f / (float)ih);
+
+                        if (CImage(id.c_str(), tex, ImVec2(iw * k, ih * k)))
+                            ClickLocked(i);
+                    }
+                    else if (CButton(label.c_str(), ImVec2(cw, 44.0f)))
                         ClickLocked(i);
                 }
 

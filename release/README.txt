@@ -1,8 +1,13 @@
-Character Creator 9.1.11 - Crimson Desert
+Character Creator 9.2.0 - Crimson Desert
 by Khione
 
 An in-game appearance editor for Kliff, Damiane and Oongka. Open it anywhere,
 no barber needed, and see every change live.
+
+With ReShade installed (the build with add-on support), the editor lives in
+ReShade's overlay: press HOME and open the "Character Creator" tab. This also
+works on Linux/Proton and with HDR, where the standalone F6 panel cannot draw.
+Without ReShade, F6 / F7 / F8 open the standalone panel as before (Windows).
 
 
 INSTALL
@@ -20,7 +25,7 @@ With DMM (recommended)
      "CharacterCreator" in the ASI plugins.
   3. Click Apply. DMM installs the game files, places CharacterCreator.asi in
      bin64 and sets up the ASI loader.
-  4. Start the game, load a save and press F6.
+  4. Start the game, load a save and press F6 (or open the Character Creator tab in ReShade's overlay with HOME).
 
 Manual install (another mod manager, or no .asi support)
   1. Install the game files with your mod manager as usual: the "Character
@@ -31,7 +36,7 @@ Manual install (another mod manager, or no .asi support)
      yet (many mods use it, usually as winmm.dll).
   3. Copy "CharacterCreator.asi" from the "Character Creator" folder into
      <game>\bin64.
-  4. Start the game, load a save and press F6.
+  4. Start the game, load a save and press F6 (or open the Character Creator tab in ReShade's overlay with HOME).
 
 On its first start the plugin creates <game>\bin64\CharacterCreator with its
 menu data and icons; your choices and the log are kept there too.
