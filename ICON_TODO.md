@@ -6,6 +6,11 @@ Display number = position in the female-filtered list (beard counts past the lea
 Legacy barber showed art because it lists only game meshes that ship IconPaths;
 the merged mod lists append game meshes without any.
 
+Update: 25 of these are filled - see extra_icons/ (baked into
+build/CharacterCreator.data by tools/merge_extra_icons.py on every CI build,
+and patched into the local install directly). Rows below still say NONE where
+no art was found at fill time.
+
 ## Head (slot 1)
 
 | # | mesh | icon in pack |

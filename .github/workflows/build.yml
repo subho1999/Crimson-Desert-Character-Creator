@@ -24,6 +24,9 @@ jobs:
           if (!(Test-Path 'build/Character Creator/mod.json')) { throw 'missing build/Character Creator - run tools/extract_build_inputs.py once and commit build/' }
           python -c "import lz4" 2>$null; if ($LASTEXITCODE -ne 0) { pip install lz4 }
 
+      - name: Merge extra icons into menu data
+        run: python tools/merge_extra_icons.py
+
       - name: Build plugin (Release x64)
         run: msbuild CharacterCreator/CharacterCreator/CharacterCreator.vcxproj /p:Configuration=Release /p:Platform=x64 /v:minimal /nologo
 
