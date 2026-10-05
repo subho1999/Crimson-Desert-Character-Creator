@@ -410,18 +410,48 @@ static void BuildItems(const Page& page, std::vector<Item>* items, int* selected
             break;
 
         const std::vector<PaletteColor>& colors = g_data.palettes[palette];
+        const std::vector<int>& order = g_data.paletteOrder[palette];
         int count = (int)colors.size();
 
         if (p.known && p.max + 1 < count)
             count = p.max + 1;
 
-        for (int i = 0; i < count; ++i)
+        // Family groups, brightest first (see MenuData::paletteOrder). The
+        // items carry stored indices and *selected is a display position, so
+        // profiles and the game keep working unchanged.
+        int stored = g_view.decoration[page.target];
+        *selected = -1;
+
+        if (order.size() == colors.size())
         {
-            Item it = { colors[i].name, L"", i, true, colors[i].r, colors[i].g, colors[i].b };
-            items->push_back(it);
+            int disp = 0;
+
+            for (int stored_i : order)
+            {
+                if (stored_i >= count)
+                    continue;
+
+                const PaletteColor& c = colors[stored_i];
+                items->push_back({ c.name, L"", stored_i, true, c.r, c.g, c.b });
+
+                if (stored_i == stored)
+                    *selected = disp;
+
+                ++disp;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < count; ++i)
+            {
+                Item it = { colors[i].name, L"", i, true, colors[i].r, colors[i].g, colors[i].b };
+                items->push_back(it);
+            }
+
+            if (stored < count)
+                *selected = stored;
         }
 
-        *selected = g_view.decoration[page.target];
         break;
     }
 

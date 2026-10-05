@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <algorithm>
 #include <unordered_map>
 
 static std::wstring Widen(const char* s)
@@ -95,7 +96,7 @@ bool MenuDataLoad(const char* folder, MenuData* out)
 
             wchar_t label[96];
             swprintf_s(label, L"%s %d", Widen(name).c_str(), number);
-            p[index] = { (uint8_t)r, (uint8_t)g, (uint8_t)b, label };
+            p[index] = { (uint8_t)r, (uint8_t)g, (uint8_t)b, label, Widen(name), number };
             ++colors;
         }
         else if (strcmp(kind, "param") == 0)
@@ -196,6 +197,41 @@ bool MenuDataLoad(const char* folder, MenuData* out)
     }
 
     fclose(f);
+
+    // Display order per palette (position -> stored index): families in
+    // first-appearance order, brightest first within each family by measured
+    // Rec.601 luma. Stored indices never move, so profiles, saves and the
+    // game keep working; only the presentation groups.
+    for (int pal = 0; pal < 256; ++pal)
+    {
+        std::vector<PaletteColor>& p = out->palettes[pal];
+        std::vector<int>& order = out->paletteOrder[pal];
+        std::vector<int> familyRank(p.size(), 0);
+        std::vector<std::wstring> seen;
+
+        for (size_t i = 0; i < p.size(); ++i)
+        {
+            size_t rank = 0;
+
+            while (rank < seen.size() && seen[rank] != p[i].family)
+                ++rank;
+
+            if (rank == seen.size())
+                seen.push_back(p[i].family);
+
+            familyRank[i] = (int)rank;
+            order.push_back((int)i);
+        }
+
+        auto luma = [&](int i) { return 299 * p[i].r + 587 * p[i].g + 114 * p[i].b; };
+        std::stable_sort(order.begin(), order.end(), [&](int a, int b)
+        {
+            if (familyRank[a] != familyRank[b])
+                return familyRank[a] < familyRank[b];
+
+            return luma(a) > luma(b);
+        });
+    }
 
     for (MeshOption& m : out->meshes)
     {
