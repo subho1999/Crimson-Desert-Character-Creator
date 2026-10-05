@@ -432,7 +432,7 @@ static void BuildItems(const Page& page, std::vector<Item>* items, int* selected
                     continue;
 
                 const PaletteColor& c = colors[stored_i];
-                items->push_back({ c.name, L"", stored_i, true, c.r, c.g, c.b });
+                items->push_back({ c.displayName, L"", stored_i, true, c.r, c.g, c.b });
 
                 if (stored_i == stored)
                     *selected = disp;
@@ -444,7 +444,7 @@ static void BuildItems(const Page& page, std::vector<Item>* items, int* selected
         {
             for (int i = 0; i < count; ++i)
             {
-                Item it = { colors[i].name, L"", i, true, colors[i].r, colors[i].g, colors[i].b };
+                Item it = { colors[i].displayName, L"", i, true, colors[i].r, colors[i].g, colors[i].b };
                 items->push_back(it);
             }
 

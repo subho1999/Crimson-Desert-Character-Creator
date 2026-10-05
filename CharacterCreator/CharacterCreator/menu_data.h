@@ -25,6 +25,8 @@ struct PaletteColor
     std::wstring name;      // e.g. "Honey 15" (family + number, as shown)
     std::wstring family;    // e.g. "Honey" (display grouping only)
     int number;             // e.g. 15 (display grouping only)
+    std::wstring displayName;   // e.g. "Honey 3": family + position in the
+                                // display order (presentation only)
 };
 
 struct DecorationParam

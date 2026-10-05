@@ -231,6 +231,19 @@ bool MenuDataLoad(const char* folder, MenuData* out)
 
             return luma(a) > luma(b);
         });
+
+        // Display names follow the display order (family + position in it),
+        // so "Ash 1" is always the brightest Ash shown. Stored indices and
+        // the shipped names are untouched.
+        std::unordered_map<std::wstring, int> sequence;
+
+        for (int stored_i : order)
+        {
+            PaletteColor& c = p[stored_i];
+            wchar_t label[96];
+            swprintf_s(label, L"%s %d", c.family.c_str(), ++sequence[c.family]);
+            c.displayName = label;
+        }
     }
 
     for (MeshOption& m : out->meshes)
