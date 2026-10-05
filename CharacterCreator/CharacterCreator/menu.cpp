@@ -2019,8 +2019,13 @@ void MenuDrawTab(void* runtimePtr)
 
                     if (tex && iw && ih)
                     {
-                        // Aspect fit, like the overlay's DrawBitmap fit.
-                        float k = min(cw / (float)iw, 116.0f / (float)ih);
+                        // Aspect fit, like the overlay's DrawBitmap fit,
+                        // capped at 1:1: the pack's icons are 128px, so they
+                        // are never upscaled, only shrunk to fit.
+                        float k = min(cw / (float)iw, 128.0f / (float)ih);
+
+                        if (k > 1.0f)
+                            k = 1.0f;
 
                         if (CImage(id.c_str(), tex, ImVec2(iw * k, ih * k)))
                             ClickLocked(i);
