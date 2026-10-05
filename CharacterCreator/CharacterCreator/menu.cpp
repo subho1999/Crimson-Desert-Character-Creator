@@ -119,6 +119,13 @@ static const int TAB_COUNT = sizeof(TABS) / sizeof(TABS[0]);
 static const int GRID_COLUMNS = 3;
 static const int TAB_ROWS = 3;
 
+// The tab's grid is wider than the overlay panel's: mesh options show five
+// across, colour swatches as many as fit (see MenuDrawTab). Keyboard
+// up/down steps follow the visible columns through s_navCols, so both stay
+// in sync; the D2D panel keeps GRID_COLUMNS (set in MenuDraw).
+static const int TAB_GRID_COLUMNS = 5;
+static int s_navCols = GRID_COLUMNS;
+
 // The panel's width (at 1080 lines; it scales with the screen height). It
 // stays within the right third of a 16:9 screen, clear of the character.
 static const float PANEL_WIDTH = 600.0f, PANEL_FADE = 90.0f;
@@ -1047,13 +1054,13 @@ static void MenuKeyLocked(int vk)
     case VK_UP:
     case 'W':
         if (sliders) g_sliderRow = g_sliderRow > 0 ? g_sliderRow - 1 : 0;
-        else MoveSelection(-GRID_COLUMNS);
+        else MoveSelection(-s_navCols);
         break;
 
     case VK_DOWN:
     case 'S':
         if (sliders) g_sliderRow = g_sliderRow + 1 < page.sliderCount ? g_sliderRow + 1 : g_sliderRow;
-        else MoveSelection(GRID_COLUMNS);
+        else MoveSelection(s_navCols);
         break;
 
     // The preview camera: face / body.
@@ -1062,11 +1069,11 @@ static void MenuKeyLocked(int vk)
         break;
 
     case VK_PRIOR:
-        if (!sliders) MoveSelection(-GRID_COLUMNS * 3);
+        if (!sliders) MoveSelection(-s_navCols * 3);
         break;
 
     case VK_NEXT:
-        if (!sliders) MoveSelection(GRID_COLUMNS * 3);
+        if (!sliders) MoveSelection(s_navCols * 3);
         break;
 
     default:
@@ -1336,6 +1343,7 @@ void MenuDraw(const OverlayDrawContext& ctx)
     }
 
     AcquireSRWLockExclusive(&g_lock);   // drawing also scrolls the grid
+    s_navCols = GRID_COLUMNS;
 
     ID2D1DeviceContext* dc = ctx.dc;
     Style& st = g_style;
@@ -1906,6 +1914,23 @@ void MenuDrawTab(void* runtimePtr)
     }
     else
     {
+        // Colour swatches pack tighter than mesh cells; the keyboard steps
+        // follow the visible columns through s_navCols.
+        bool colorPage = page->kind == PAGE_COLOR || page->kind == PAGE_EYES;
+        int cols;
+
+        if (colorPage)
+        {
+            cols = (int)(ImGui::GetContentRegionAvail().x / 52.0f);
+
+            if (cols < 4)
+                cols = 4;
+        }
+        else
+            cols = TAB_GRID_COLUMNS;
+
+        s_navCols = cols;
+
         bool jumped = s_drawTab != g_tab || s_drawPage != g_page[g_tab] || s_drawSelected != selected;
         s_drawTab = g_tab;
         s_drawPage = g_page[g_tab];
@@ -1915,17 +1940,24 @@ void MenuDrawTab(void* runtimePtr)
         // big list must not stutter on uploads.
         int budget = 6;
 
-        if (ImGui::BeginChild("cc_grid", ImVec2(0, 300), ImGuiChildFlags_Borders, ImGuiWindowFlags_None))
+        // Dynamic height: everything above is fixed size and the footer below
+        // needs ~170px; the grid takes the rest. In ReShade's docked window
+        // that fills the height; elsewhere it bottoms out instead of vanishing.
+        float gridH = ImGui::GetContentRegionAvail().y - 170.0f;
+
+        if (gridH < 240.0f)
+            gridH = 240.0f;
+
+        if (ImGui::BeginChild("cc_grid", ImVec2(0, gridH), ImGuiChildFlags_Borders, ImGuiWindowFlags_None))
         {
-            float innerW = ImGui::GetContentRegionAvail().x / GRID_COLUMNS;
-            float cw = innerW - 4.0f;
+            float cw = ImGui::GetContentRegionAvail().x / cols - 4.0f;
 
             if (cw < 8.0f)
                 cw = 8.0f;
 
             for (int i = 0; i < (int)items.size(); ++i)
             {
-                if (i % GRID_COLUMNS)
+                if (i % cols)
                     ImGui::SameLine(0.0f, 4.0f);
 
                 const Item& it = items[i];
@@ -1943,7 +1975,7 @@ void MenuDrawTab(void* runtimePtr)
                 if (it.hasColor)
                 {
                     if (CColor(id.c_str(), ImVec4(it.r / 255.0f, it.g / 255.0f, it.b / 255.0f, 1.0f),
-                            ImVec2(cw, 44.0f)))
+                            ImVec2(44.0f, 44.0f)))
                         ClickLocked(i);
                 }
                 else
@@ -1956,7 +1988,7 @@ void MenuDrawTab(void* runtimePtr)
                     if (tex && iw && ih)
                     {
                         // Aspect fit, like the overlay's DrawBitmap fit.
-                        float k = min(cw / (float)iw, 64.0f / (float)ih);
+                        float k = min(cw / (float)iw, 96.0f / (float)ih);
 
                         if (CImage(id.c_str(), tex, ImVec2(iw * k, ih * k)))
                             ClickLocked(i);
@@ -1968,21 +2000,31 @@ void MenuDrawTab(void* runtimePtr)
                 if (on)
                     ImGui::PopStyleColor(2);
 
-                // Caption under the cell, like MenuDraw ("[ Hair 12 ]" when chosen).
-                std::string caption = (on ? "[ " : "") + Utf8(it.label) + (on ? " ]" : "");
-
-                if (on)
-                    ImGui::PushStyleColor(ImGuiCol_Text, TAB_GOLD);
-
-                T(caption);
-
-                if (on)
+                if (colorPage)
                 {
-                    ImGui::PopStyleColor(1);
-                    ImGui::SetItemDefaultFocus();
+                    // No room for captions in a dense swatch grid: hovering
+                    // names a swatch, and the chosen one is named under it.
+                    if (ImGui::IsItemHovered((ImGuiHoveredFlags)0))
+                        ImGui::SetTooltip("%s", Utf8(it.label).c_str());
+                }
+                else
+                {
+                    // Caption under the cell, like MenuDraw ("[ Hair 12 ]" when chosen).
+                    std::string caption = (on ? "[ " : "") + Utf8(it.label) + (on ? " ]" : "");
 
-                    if (jumped)
-                        ImGui::SetScrollHereY(0.5f);
+                    if (on)
+                        ImGui::PushStyleColor(ImGuiCol_Text, TAB_GOLD);
+
+                    T(caption);
+
+                    if (on)
+                    {
+                        ImGui::PopStyleColor(1);
+                        ImGui::SetItemDefaultFocus();
+
+                        if (jumped)
+                            ImGui::SetScrollHereY(0.5f);
+                    }
                 }
 
                 ImGui::EndGroup();
@@ -1993,6 +2035,14 @@ void MenuDrawTab(void* runtimePtr)
         }
 
         ImGui::EndChild();
+
+        // The chosen swatch, named (its caption lives in the tooltip).
+        if (colorPage && selected >= 0 && selected < (int)items.size())
+        {
+            ImGui::PushStyleColor(ImGuiCol_Text, TAB_GOLD);
+            T("[ " + Utf8(items[selected].label) + " ]");
+            ImGui::PopStyleColor(1);
+        }
     }
 
     // Footer notes, same conditions as MenuDraw.
