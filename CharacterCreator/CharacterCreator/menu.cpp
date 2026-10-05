@@ -2044,6 +2044,15 @@ void MenuDrawTab(void* runtimePtr)
                 if (on)
                     ImGui::PopStyleColor(2);
 
+                if (on)
+                {
+                    // Gold selection rectangle, like the overlay panel drew
+                    // around every chosen cell.
+                    ImDrawList* draw = ImGui::GetWindowDrawList();
+                    draw->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(),
+                        IM_COL32(237, 194, 115, 255), 0.0f, 0, 2.0f);
+                }
+
                 if (on && jumped)
                 {
                     // Minimal scroll, and only when the newly chosen option
