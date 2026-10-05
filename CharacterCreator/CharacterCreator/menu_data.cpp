@@ -204,7 +204,8 @@ bool MenuDataLoad(const char* folder, MenuData* out)
     static const wchar_t* const COLOR_BANDS[] = {
         L"White", L"Silver", L"Grey", L"Sage", L"Mauve", L"Charcoal", L"Black",
         L"Pink", L"Rose", L"Red", L"Auburn", L"Copper",
-        L"Ginger", L"Blonde", L"Ash Blonde", L"Brown", L"Olive", L"Green",
+        L"Golden Blonde", L"Dirty Blonde", L"Bronze",
+        L"Blonde", L"Ash Blonde", L"Brown", L"Olive", L"Green",
         L"Teal", L"Slate", L"Blue", L"Navy", L"Violet",
     };
     static const int COLOR_BAND_COUNT = sizeof(COLOR_BANDS) / sizeof(COLOR_BANDS[0]);
@@ -266,18 +267,27 @@ bool MenuDataLoad(const char* folder, MenuData* out)
         if (h < 9.0) return 9;
         if (h < 18.0) return 10;
         if (h < 30.0) return 11;
-        if (h < 44.0) return s >= 0.32 ? 12 : 14;
+        // Golden blondes are vivid and bright; dirty blondes are pale or
+        // muted; bronze is dark and saturated. Split on brightness first so
+        // the two braided looks separate instead of interleaving by luma.
+        if (h < 44.0)
+        {
+            if (s < 0.32) return 16;
+            if (v >= 0.82 && s >= 0.55) return 12;
+            if (v >= 0.80) return 13;
+            return (s >= 0.65 || v < 0.55) ? 14 : 13;
+        }
         if (h < 62.0)
         {
-            if (s < 0.32) return 14;
-            if (v >= 0.62) return 13;
-            return s >= 0.70 ? 15 : 16;
+            if (s < 0.32) return 16;
+            if (v >= 0.62) return 15;
+            return s >= 0.70 ? 17 : 18;
         }
-        if (h < 172.0) return 17;
-        if (h < 208.0) return (v >= 0.5 && s >= 0.45) ? 18 : 19;
-        if (h < 240.0) return 20;
-        if (h < 262.0) return 21;
-        return 22;
+        if (h < 172.0) return 19;
+        if (h < 208.0) return (v >= 0.5 && s >= 0.45) ? 20 : 21;
+        if (h < 240.0) return 22;
+        if (h < 262.0) return 23;
+        return 24;
     };
 
     // Display order per palette (position -> stored index): bands above,
