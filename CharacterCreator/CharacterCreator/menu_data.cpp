@@ -202,9 +202,9 @@ bool MenuDataLoad(const char* folder, MenuData* out)
     // achromatic by value, chromatic by hue, muted blondes and dark cyans
     // split into their own bands. Display order below.
     static const wchar_t* const COLOR_BANDS[] = {
-        L"White", L"Silver", L"Grey", L"Charcoal", L"Black",
+        L"White", L"Silver", L"Grey", L"Sage", L"Mauve", L"Charcoal", L"Black",
         L"Pink", L"Rose", L"Red", L"Auburn", L"Copper",
-        L"Ginger", L"Blonde", L"Ash Blonde", L"Brown", L"Green",
+        L"Ginger", L"Blonde", L"Ash Blonde", L"Brown", L"Olive", L"Green",
         L"Teal", L"Slate", L"Blue", L"Navy", L"Violet",
     };
     static const int COLOR_BAND_COUNT = sizeof(COLOR_BANDS) / sizeof(COLOR_BANDS[0]);
@@ -245,31 +245,39 @@ bool MenuDataLoad(const char* folder, MenuData* out)
         double h, s, v;
         rgbToHsv(r, g, b, &h, &s, &v);
 
+        // Muted tinted greys read as their tint, not as grey: sage greens
+        // and mauves get their own bands (mid-dark only, so bright dusty
+        // pastels stay in their hue families). Checked before the grey axis
+        // so green/mauve-tinted greys land here instead of Grey.
+        if (h >= 85.0 && h < 175.0 && s < 0.30 && v < 0.75) return 3;
+        if (h >= 260.0 && h < 340.0 && s < 0.30 && v < 0.75) return 4;
+
         if (s < 0.16)
         {
-            if (v >= 0.85) return 0;
-            if (v >= 0.66) return 1;
-            if (v >= 0.37) return 2;
-            if (v >= 0.15) return 3;
-            return 4;
+            if (v >= 0.85) return 0;    // White
+            if (v >= 0.66) return 1;    // Silver
+            if (v >= 0.37) return 2;    // Grey
+            if (v >= 0.15) return 5;    // Charcoal
+            return 6;                   // Black
         }
 
-        if (h >= 328.0) return 5;
-        if (h >= 300.0) return 6;
-        if (h < 9.0) return 7;
-        if (h < 18.0) return 8;
-        if (h < 30.0) return 9;
-        if (h < 44.0) return s >= 0.32 ? 10 : 12;
+        if (h >= 328.0) return 7;
+        if (h >= 300.0) return 8;
+        if (h < 9.0) return 9;
+        if (h < 18.0) return 10;
+        if (h < 30.0) return 11;
+        if (h < 44.0) return s >= 0.32 ? 12 : 14;
         if (h < 62.0)
         {
-            if (s < 0.32) return 12;
-            return v >= 0.62 ? 11 : 13;
+            if (s < 0.32) return 14;
+            if (v >= 0.62) return 13;
+            return s >= 0.70 ? 15 : 16;
         }
-        if (h < 172.0) return 14;
-        if (h < 208.0) return (v >= 0.5 && s >= 0.45) ? 15 : 16;
-        if (h < 240.0) return 17;
-        if (h < 262.0) return 18;
-        return 19;
+        if (h < 172.0) return 17;
+        if (h < 208.0) return (v >= 0.5 && s >= 0.45) ? 18 : 19;
+        if (h < 240.0) return 20;
+        if (h < 262.0) return 21;
+        return 22;
     };
 
     // Display order per palette (position -> stored index): bands above,
