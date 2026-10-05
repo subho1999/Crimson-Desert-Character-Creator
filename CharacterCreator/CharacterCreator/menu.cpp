@@ -1615,10 +1615,7 @@ void MenuDraw(const OverlayDrawContext& ctx)
 #include "tab_icons.h"
 
 static const ImVec4 TAB_GOLD = ImVec4(0.93f, 0.76f, 0.45f, 1.0f);
-static const ImVec4 TAB_TEXT = ImVec4(0.93f, 0.91f, 0.87f, 1.0f);
-static const ImVec4 TAB_DIM = ImVec4(0.62f, 0.60f, 0.56f, 1.0f);
 static const ImVec4 TAB_ON = ImVec4(0.55f, 0.39f, 0.15f, 1.0f);
-static const ImVec4 TAB_OFF = ImVec4(0.16f, 0.13f, 0.09f, 1.0f);
 
 // Text from a narrow string (single-argument TextUnformatted is Dear ImGui
 // proper, but the SDK stub only wraps the two-argument form).
@@ -1754,6 +1751,11 @@ static void ClickLocked(int item)
 // The last drawn selection, to scroll a newly chosen option into view.
 static int s_drawTab = -1, s_drawPage = -1, s_drawSelected = -2;
 
+// Measured footer height (notes + legend + buttons) from the last drawn
+// frame: the grid fills everything above it, so the footer never scrolls away
+// and the grid never leaves a gap. Seeds the first frame's guess.
+static float s_footerReserve = 170.0f;
+
 void MenuDrawTab(void* runtimePtr)
 {
     reshade::api::effect_runtime* runtime = (reshade::api::effect_runtime*)runtimePtr;
@@ -1865,6 +1867,9 @@ void MenuDrawTab(void* runtimePtr)
 
     float tabW = ImGui::GetContentRegionAvail().x / perRow;
 
+    if (tabW < 20.0f)
+        tabW = 20.0f;
+
     for (int i = 0; i < TAB_COUNT; ++i)
     {
         if (i % perRow)
@@ -1890,14 +1895,19 @@ void MenuDrawTab(void* runtimePtr)
             ImGui::PopStyleColor(2);
     }
 
+    ImGui::Separator();
+
+    float gridBottomY = -1.0f;   // cursor below the grid, to measure the footer
+
     if (page->kind == PAGE_SLIDERS)
-    {
-        for (int i = 0; i < page->sliderCount; ++i)
+    {        for (int i = 0; i < page->sliderCount; ++i)
         {
             int lo, hi, value;
             SliderRangeLocked(i, &lo, &hi, &value);
             bool height = page->sliders[i] == SLIDER_HEIGHT;
 
+            // Fixed label column keeps every slider aligned (form rhythm);
+            // the slider itself fills the rest of the line.
             std::string name = (i == g_sliderRow ? "[ " : "") + Utf8(page->sliderNames[i]) +
                 (i == g_sliderRow ? " ]" : "");
 
@@ -1908,6 +1918,9 @@ void MenuDrawTab(void* runtimePtr)
 
             if (i == g_sliderRow)
                 ImGui::PopStyleColor(1);
+
+            ImGui::SameLine(190.0f, 0.0f);
+            ImGui::SetNextItemWidth(-1.0f);
 
             std::string id = "##ccsl" + std::to_string(i);
             const char* format = height ? (value ? "%+d%%" : "0%%") : "%d";
@@ -1925,6 +1938,10 @@ void MenuDrawTab(void* runtimePtr)
         // follow the visible columns through s_navCols.
         bool colorPage = page->kind == PAGE_COLOR || page->kind == PAGE_EYES;
         float availW = ImGui::GetContentRegionAvail().x;
+
+        if (availW < 0.0f)
+            availW = 0.0f;
+
         int cols;
 
         if (colorPage)
@@ -1956,10 +1973,9 @@ void MenuDrawTab(void* runtimePtr)
         // big list must not stutter on uploads.
         int budget = 6;
 
-        // Dynamic height: everything above is fixed size and the footer below
-        // needs ~170px; the grid takes the rest. In ReShade's docked window
-        // that fills the height; elsewhere it bottoms out instead of vanishing.
-        float gridH = ImGui::GetContentRegionAvail().y - 170.0f;
+        // The grid fills everything above the footer: measured from the last
+        // frame, so notes growing or shrinking never gap or clip it.
+        float gridH = ImGui::GetContentRegionAvail().y - s_footerReserve;
 
         if (gridH < 240.0f)
             gridH = 240.0f;
@@ -2034,6 +2050,7 @@ void MenuDrawTab(void* runtimePtr)
         }
 
         ImGui::EndChild();
+        float gridBottomY = ImGui::GetCursorPosY();
 
         // The chosen option, named (hovering names the rest).
         if (selected >= 0 && selected < (int)items.size())
@@ -2122,6 +2139,9 @@ void MenuDrawTab(void* runtimePtr)
 
     s_widgetFocused = s_widgetFocusedNow;
     s_sliderFocused = s_sliderFocusedNow;
+
+    if (gridBottomY >= 0.0f)
+        s_footerReserve = ImGui::GetCursorPosY() - gridBottomY + 8.0f;
 
     ReleaseSRWLockExclusive(&g_lock);
 }
