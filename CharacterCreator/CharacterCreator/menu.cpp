@@ -1983,6 +1983,9 @@ void MenuDrawTab(void* runtimePtr)
 
         if (ImGui::BeginChild("cc_grid", ImVec2(0, gridH), ImGuiChildFlags_Borders, ImGuiWindowFlags_None))
         {
+            // Visible height of the scroller, for the visibility check below.
+            float viewH = ImGui::GetContentRegionAvail().y;
+
             float cw = ImGui::GetContentRegionAvail().x / cols - 4.0f;
 
             if (cw < 8.0f)
@@ -1996,6 +1999,9 @@ void MenuDrawTab(void* runtimePtr)
                 const Item& it = items[i];
                 bool on = i == selected;
                 std::string id = "##cc" + std::to_string(i);
+
+                // Item top in child coordinates, for the visibility check.
+                float itemTop = (on && jumped) ? ImGui::GetCursorPosY() : 0.0f;
 
                 ImGui::BeginGroup();
 
@@ -2039,7 +2045,19 @@ void MenuDrawTab(void* runtimePtr)
                     ImGui::PopStyleColor(2);
 
                 if (on && jumped)
-                    ImGui::SetScrollHereY(0.5f);
+                {
+                    // Minimal scroll, and only when the newly chosen option
+                    // is not fully visible: to the top row when above, to
+                    // the last row when below. Never recenters, so comparing
+                    // neighbours never shifts context.
+                    float itemBottom = ImGui::GetCursorPosY();
+                    float scroll = ImGui::GetScrollY();
+
+                    if (itemTop < scroll)
+                        ImGui::SetScrollFromPosY(itemTop, 0.0f);
+                    else if (itemBottom > scroll + viewH)
+                        ImGui::SetScrollFromPosY(itemBottom, 1.0f);
+                }
 
                 // No per-cell captions: hovering names the option, and the
                 // chosen one is named under the grid. (SetItemDefaultFocus
