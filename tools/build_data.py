@@ -47,6 +47,11 @@ TEXTURE_PALETTE = os.path.join(DESKTOP, r'CC DATA SLINKY\charactercustomizatione
                                r'\charactercustomizationextender\files\character\descriptors\customizationmeta'
                                r'\customizationtexturepalette.xml')
 
+# The game's own barber UI art, for meshes that ship without an IconPath
+# (player hair/beard variants): ui/texture/image/customizeimage/
+# cd_itemicon_barbershop_<mesh>.dds in the same extract as ORIGINAL_META.
+GAME_ICONS = os.path.join(DESKTOP, r'Crimson Browser Sharp\extract', ICONS)
+
 # Folder that provides every file which is the same for all races.
 BASE_FOLDER = 'Human Male'
 
@@ -440,6 +445,19 @@ def convert_icon(src, dst):
         flat.convert('RGB').save(dst, 'JPEG', quality=85, optimize=True)
 
 
+def barber_art_candidates(mesh):
+    """Game barber UI art for a mesh without IconPath, best framing first:
+    cd_itemicon_barbershop_<mesh>.dds, without a trailing '_player', then
+    the Oongka barber's framing of the same mesh."""
+    bases = [mesh]
+
+    if mesh.endswith('_player'):
+        bases.append(mesh[:-len('_player')])
+
+    return ([f'cd_itemicon_barbershop_{m}.dds' for m in bases] +
+            [f'cd_itemicon_barbershop_oongka_{m}.dds' for m in bases])
+
+
 def pack_runtime_data(folder, out_path):
     """Packs menu.txt and the icons into one file, built into CharacterCreator.asi
     as a resource: the plugin unpacks it into bin64/CharacterCreator, so the
@@ -620,6 +638,20 @@ def main():
                     icon = os.path.splitext(src_name)[0].lower() + '.jpg'
                     convert_icon(src, os.path.join(runtime_out, 'icons', icon))
                     converted[src_name] = icon
+            elif name != '-':
+                # No IconPath: fall back to the game's own barber art.
+                for candidate in barber_art_candidates(name):
+                    game_src = os.path.join(GAME_ICONS, candidate)
+
+                    if os.path.exists(game_src):
+                        icon = converted.get(candidate)
+
+                        if not icon:
+                            icon = os.path.splitext(candidate)[0].lower() + '.jpg'
+                            convert_icon(game_src, os.path.join(runtime_out, 'icons', icon))
+                            converted[candidate] = icon
+
+                        break
             shown = 0 if ms['attrs'].get('ShowInGame', 'True').lower() == 'false' else 1
             name = ms['names'][0] if ms['names'] else '-'
             # The game's own lists have an eyebrow part among the heads, hair
