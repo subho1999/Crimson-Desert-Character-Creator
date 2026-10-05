@@ -1097,9 +1097,10 @@ bool MenuSessionKey(int vk)
     AcquireSRWLockExclusive(&g_lock);
     MenuKeyLocked(vk);
 
-    // Keep/Cancel above already ran; closing the session here mirrors the
-    // overlay path, where they also hid the panel.
-    bool closed = (vk == VK_ESCAPE || vk == VK_RETURN || vk == VK_SPACE) && g_sessionOpen;
+    // Only Esc closes from the tab now (Space/Enter retired: HOME keeps).
+    // Keep/Cancel above already ran; clearing the flag mirrors the overlay
+    // path, where they also hid the panel.
+    bool closed = vk == VK_ESCAPE && g_sessionOpen;
 
     if (closed)
         g_sessionOpen = false;
@@ -2126,7 +2127,7 @@ void MenuDrawTab(void* runtimePtr)
     }
 
     ImGui::Separator();
-    T("[Space] Keep     [Esc] Cancel     HOME: close overlay");
+    T("[Esc] Cancel     HOME: keep + close");
 
     if (CButton("Keep", ImVec2(0, 0)))
     {

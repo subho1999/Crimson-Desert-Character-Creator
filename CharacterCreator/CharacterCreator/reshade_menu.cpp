@@ -37,18 +37,14 @@ static const DWORD TAB_HIDDEN_TIMEOUT_MS = 2000;
 static const int POLL_KEYS[] = {
     VK_TAB, 'Q', 'E', VK_OEM_4, VK_OEM_6,
     VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN, 'A', 'D', 'W', 'S',
-    'R', VK_RETURN, VK_SPACE, VK_ESCAPE, VK_PRIOR, VK_NEXT,
+    'R', VK_ESCAPE, VK_PRIOR, VK_NEXT,
     '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
 };
 
-static bool SkipForFocus(int vk, bool widget, bool slider)
+static bool SkipForFocus(int vk, bool slider)
 {
-    // A focused widget owns Space/Enter; a focused slider owns the arrows
-    // (and PgUp/PgDn) too. Everything else stays on the menu scheme, so a
-    // keyboard-only user (never focused anything) keeps full control.
-    if ((vk == VK_SPACE || vk == VK_RETURN) && widget)
-        return true;
-
+    // A focused slider owns the arrows (and PgUp/PgDn); Space/Enter were
+    // retired (HOME keeps), so focus only matters for sliders now.
     if (slider && (vk == VK_LEFT || vk == VK_RIGHT || vk == VK_UP || vk == VK_DOWN ||
         vk == 'A' || vk == 'D' || vk == 'W' || vk == 'S' || vk == VK_PRIOR || vk == VK_NEXT))
         return true;
@@ -69,12 +65,11 @@ static void DrawTab(reshade::api::effect_runtime* runtime)
 
     runtime->block_input_next_frame();
 
-    bool widget = MenuTabWidgetFocused(false);
     bool slider = MenuTabWidgetFocused(true);
 
     for (int vk : POLL_KEYS)
     {
-        if (SkipForFocus(vk, widget, slider))
+        if (SkipForFocus(vk, slider))
             continue;
 
         if (runtime->is_key_pressed(vk))
