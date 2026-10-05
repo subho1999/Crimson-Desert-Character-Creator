@@ -2049,14 +2049,16 @@ void MenuDrawTab(void* runtimePtr)
                     // Minimal scroll, and only when the newly chosen option
                     // is not fully visible: to the top row when above, to
                     // the last row when below. Never recenters, so comparing
-                    // neighbours never shifts context.
+                    // neighbours never shifts context. Absolute SetScrollY:
+                    // the positions above are content coordinates, while
+                    // SetScrollFromPosY would add the current scroll again.
                     float itemBottom = ImGui::GetCursorPosY();
                     float scroll = ImGui::GetScrollY();
 
                     if (itemTop < scroll)
-                        ImGui::SetScrollFromPosY(itemTop, 0.0f);
+                        ImGui::SetScrollY(itemTop);
                     else if (itemBottom > scroll + viewH)
-                        ImGui::SetScrollFromPosY(itemBottom, 1.0f);
+                        ImGui::SetScrollY(itemBottom - viewH);
                 }
 
                 // No per-cell captions: hovering names the option, and the
