@@ -22,10 +22,11 @@ struct MeshOption
 struct PaletteColor
 {
     uint8_t r, g, b;
-    std::wstring name;      // e.g. "Honey 15" (family + number, as shown)
-    std::wstring family;    // e.g. "Honey" (display grouping only)
-    int number;             // e.g. 15 (display grouping only)
-    std::wstring displayName;   // e.g. "Honey 3": family + position in the
+    std::wstring name;      // e.g. "Honey 15" (as shipped, kept)
+    std::wstring family;    // display band, measured from the RGB
+                            // (e.g. Honey browns land in Blonde/Brown)
+    int number;             // file number (kept, display grouping only)
+    std::wstring displayName;   // e.g. "Blonde 3": band + position in the
                                 // display order (presentation only)
 };
 
@@ -50,9 +51,9 @@ struct MenuData
 {
     std::vector<MeshOption> meshes;
     std::vector<PaletteColor> palettes[256];
-    // Display order per palette (position -> stored index): families in
-    // first-appearance order, brightest first within each (measured luma).
-    // The stored indices never move, so profiles and the game keep working.
+    // Display order per palette (position -> stored index): the COLOR_BANDS
+    // below, brightest first within each (measured luma). The stored indices
+    // never move, so profiles, saves and the game keep working.
     std::vector<int> paletteOrder[256];
     int textureCounts[256];
     DecorationParam params[250];

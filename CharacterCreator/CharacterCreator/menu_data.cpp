@@ -198,28 +198,99 @@ bool MenuDataLoad(const char* folder, MenuData* out)
 
     fclose(f);
 
-    // Display order per palette (position -> stored index): families in
-    // first-appearance order, brightest first within each family by measured
-    // Rec.601 luma. Stored indices never move, so profiles, saves and the
-    // game keep working; only the presentation groups.
+    // Display bands, measured from the RGB (not the shipped names):
+    // achromatic by value, chromatic by hue, muted blondes and dark cyans
+    // split into their own bands. Display order below.
+    static const wchar_t* const COLOR_BANDS[] = {
+        L"White", L"Silver", L"Grey", L"Charcoal", L"Black",
+        L"Pink", L"Rose", L"Red", L"Auburn", L"Copper",
+        L"Ginger", L"Blonde", L"Ash Blonde", L"Brown", L"Green",
+        L"Teal", L"Slate", L"Blue", L"Navy", L"Violet",
+    };
+    static const int COLOR_BAND_COUNT = sizeof(COLOR_BANDS) / sizeof(COLOR_BANDS[0]);
+
+    auto rgbToHsv = [](uint8_t r, uint8_t g, uint8_t b, double* h, double* s, double* v)
+    {
+        double rd = r / 255.0, gd = g / 255.0, bd = b / 255.0;
+        double mx = rd > gd ? (rd > bd ? rd : bd) : (gd > bd ? gd : bd);
+        double mn = rd < gd ? (rd < bd ? rd : bd) : (gd < bd ? gd : bd);
+        *v = mx;
+        *s = mx == 0.0 ? 0.0 : (mx - mn) / mx;
+
+        if (mx == mn)
+        {
+            *h = 0.0;
+            return;
+        }
+
+        double d = mx - mn;
+
+        if (mx == rd)
+        {
+            *h = (gd - bd) / d;
+
+            if (*h < 0.0)
+                *h += 6.0;
+        }
+        else if (mx == gd)
+            *h = (bd - rd) / d + 2.0;
+        else
+            *h = (rd - gd) / d + 4.0;
+
+        *h *= 60.0;
+    };
+
+    auto bandForColor = [&](uint8_t r, uint8_t g, uint8_t b)
+    {
+        double h, s, v;
+        rgbToHsv(r, g, b, &h, &s, &v);
+
+        if (s < 0.16)
+        {
+            if (v >= 0.85) return 0;
+            if (v >= 0.66) return 1;
+            if (v >= 0.37) return 2;
+            if (v >= 0.15) return 3;
+            return 4;
+        }
+
+        if (h >= 328.0) return 5;
+        if (h >= 300.0) return 6;
+        if (h < 9.0) return 7;
+        if (h < 18.0) return 8;
+        if (h < 30.0) return 9;
+        if (h < 44.0) return s >= 0.32 ? 10 : 12;
+        if (h < 62.0)
+        {
+            if (s < 0.32) return 12;
+            return v >= 0.62 ? 11 : 13;
+        }
+        if (h < 172.0) return 14;
+        if (h < 208.0) return (v >= 0.5 && s >= 0.45) ? 15 : 16;
+        if (h < 240.0) return 17;
+        if (h < 262.0) return 18;
+        return 19;
+    };
+
+    // Display order per palette (position -> stored index): bands above,
+    // brightest first within each (measured Rec.601 luma). Stored indices
+    // never move, so profiles, saves and the game keep working; only the
+    // presentation groups.
     for (int pal = 0; pal < 256; ++pal)
     {
         std::vector<PaletteColor>& p = out->palettes[pal];
         std::vector<int>& order = out->paletteOrder[pal];
         std::vector<int> familyRank(p.size(), 0);
-        std::vector<std::wstring> seen;
 
         for (size_t i = 0; i < p.size(); ++i)
         {
-            size_t rank = 0;
+            int band = bandForColor(p[i].r, p[i].g, p[i].b);
 
-            while (rank < seen.size() && seen[rank] != p[i].family)
-                ++rank;
+            if (band < 0 || band >= COLOR_BAND_COUNT)
+                band = 2;
 
-            if (rank == seen.size())
-                seen.push_back(p[i].family);
-
-            familyRank[i] = (int)rank;
+            p[i].family = COLOR_BANDS[band];
+            familyRank[i] = band;
             order.push_back((int)i);
         }
 
